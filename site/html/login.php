@@ -1,30 +1,56 @@
 <?php
+
 session_start();
 echo isset($_SESSION['login']);
-if(isset($_SESSION['login'])) {
-    header('LOCATION:index.php'); die();
+if (isset($_SESSION['login'])) {
+    header('LOCATION:index.php');
+    die();
 }
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv='content-type' content='text/html;charset=utf-8' />
+    <meta http-equiv='content-type' content='text/html;charset=utf-8'/>
     <title>Login</title>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
 <body>
 <div class="container">
     <h3 class="text-center">Login</h3>
     <?php
-    if(isset($_POST['submit'])){
-        $username = $_POST['username']; $password = $_POST['password'];
-        if($username === 'admin' && $password === 'password'){
-            $_SESSION['login'] = true; header('LOCATION:admin.php'); die();
-        } {
+    if (isset($_POST['submit'])) {
+
+        $username = $_POST['username'];
+        $password = $_POST['password'];
+
+        try {
+
+            $file_db = new PDO('sqlite:/usr/share/nginx/databases/database.sqlite');
+            $file_db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $stmt = $file_db->prepare('SELECT id FROM user WHERE username = :username AND password = :password');
+            $stmt->execute(['username' => $username, 'password' => $password]);
+            $res = $stmt->fetch();
+
+            //var_dump($res);
+
+            if ($res) {
+                $_SESSION['login'] = true;
+                $_SESSION['id'] = $res[0];
+                $_SESSION['username'] = $username;
+                header('LOCATION:index.php');
+                die();
+            }
+
             echo "<div class='alert alert-danger'>Username and Password do not match.</div>";
+
+            // Close file db connection
+            $file_db = null;
+        } catch (PDOException $e) {
+            // Print PDOException message
+            echo $e->getMessage();
         }
+
 
     }
     ?>

@@ -87,6 +87,24 @@
     // Print PDOException message
     echo $e->getMessage();
   }
+
+  try {
+
+    $file_db = new PDO('sqlite:/usr/share/nginx/databases/database.sqlite');
+    $file_db->setAttribute(PDO::ATTR_ERRMODE,     PDO::ERRMODE_EXCEPTION);
+
+    $stmt = $file_db->prepare('SELECT username, password FROM user WHERE username = :username AND password = :password');
+    $stmt->execute(['username' => $username, 'password' => $password]);
+    $res = $stmt->fetch();
+
+    // Close file db connection
+    $file_db = null;
+}
+catch(PDOException $e) {
+    // Print PDOException message
+    echo $e->getMessage();
+}
+
 ?>
 
 <h1> Hello World</h1>
