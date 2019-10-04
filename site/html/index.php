@@ -24,22 +24,31 @@ try {
     $messages = $stmt->fetchAll();
     $db = null;
 
-    foreach ($messages as $message) {
-        echo "Id: " . $message['id'] . "<br/>";
-        echo "Title: " . $message['subject'] . "<br/>";
-        echo "Time: " . $message['date'] . "<br/>";
-        echo "<br/>";
-    }
+
 }
 catch (PDOException $e) {
     echo $e->getMessage();
 }
 
+$pageTitle = 'Accueil';
+include 'include/html_header.php';
+
+foreach ($messages as $message) {
+    echo "Id: " . $message['id'] . "<br/>";
+    echo "Title: " . $message['subject'] . "<br/>";
+    echo "Time: " . $message['date'] . "<br/>";
+    echo "<br/>";
+}
+
 ?>
 
-<a href="send.php">Envoyer un message</a><br>
-<a href="pwd.php">Changer le mot de passe</a><br>
+    <a href="send.php">Envoyer un message</a><br>
+    <a href="pwd.php">Changer le mot de passe</a><br>
 
-<form action="" method="post">
-    <button type="submit" name="logout">Logout</button>
-</form>
+    <form action="" method="post">
+        <button type="submit" name="logout">Logout</button>
+    </form>
+
+<?php
+
+include 'include/html_footer.php';

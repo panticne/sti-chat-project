@@ -35,15 +35,11 @@ if (isset($_POST['submit'])) {
     }
 }
 
+$pageTitle = 'Authentification';
+include 'include/html_header.php';
+
 ?>
 
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="utf-8">
-    <title>Authentification</title>
-</head>
-<body>
     <div><?php echo $error; ?></div>
     <form action="login.php" method="post">
         <label for="username">Nom d'utilisateur</label>
@@ -52,5 +48,7 @@ if (isset($_POST['submit'])) {
         <input type="password" id="password" name="password">
         <button type="submit" name="submit">Authentification</button>
     </form>
-</body>
-</html>
+
+<?php
+
+include 'include/html_footer.php';
