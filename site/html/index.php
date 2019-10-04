@@ -23,8 +23,6 @@ try {
     $stmt->execute(['receiver' => $_SESSION['id']]);
     $messages = $stmt->fetchAll();
     $db = null;
-
-
 }
 catch (PDOException $e) {
     echo $e->getMessage();

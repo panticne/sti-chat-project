@@ -43,9 +43,9 @@ include 'include/html_header.php';
     <div><?php echo $error; ?></div>
     <form action="login.php" method="post">
         <label for="username">Nom d'utilisateur</label>
-        <input type="text" id="username" name="username">
+        <input type="text" id="username" name="username"><br>
         <label for="password">Mot de passe</label>
-        <input type="password" id="password" name="password">
+        <input type="password" id="password" name="password"><br>
         <button type="submit" name="submit">Authentification</button>
     </form>
 

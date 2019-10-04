@@ -15,7 +15,7 @@ if (isset($_POST['submit'])) {
     $db = init_db();
 
     $stmt = $db->prepare('UPDATE user SET password = :password WHERE id = :id');
-    $stmt->execute(['password' => $_POST['pwd'], 'id' => $_SESSION['id']]);
+    $stmt->execute(['password' => $_POST['password'], 'id' => $_SESSION['id']]);
     $rowCount = $stmt->rowCount();
 
     if ($rowCount == 1) {
@@ -26,10 +26,17 @@ if (isset($_POST['submit'])) {
     }
 }
 
+$pageTitle = 'Changement du mot de passe';
+include 'include/html_header.php';
+
 ?>
 
-<form action="" method="post">
-    <label for="pwd">Nouveau mot de passe</label>
-    <input type="password" id="pwd" name="pwd">
-    <button type="submit" name="submit">Valider</button>
-</form>
+    <form action="pwd.php" method="post">
+        <label for="password">Nouveau mot de passe</label>
+        <input type="password" id="password" name="password">
+        <button type="submit" name="submit">Valider</button>
+    </form>
+
+<?php
+
+include 'include/html_footer.php';
