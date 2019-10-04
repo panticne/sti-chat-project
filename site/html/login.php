@@ -1,70 +1,56 @@
 <?php
 
+require_once 'util/db.php';
+require_once 'util/redirect.php';
+
 session_start();
-echo isset($_SESSION['login']);
-if (isset($_SESSION['login'])) {
-    header('LOCATION:index.php');
-    die();
+
+// redirect to index.php if user is already logged in
+if (isset($_SESSION['id'])) {
+    redirect_to_index();
 }
+
+// if user has submitted login form, perform authentication
+$error = '';
+if (isset($_POST['submit'])) {
+
+    try {
+        $db = init_db();
+
+        $stmt = $db->prepare('SELECT id FROM user WHERE username = :username AND password = :password');
+        $stmt->execute(['username' => $_POST['username'], 'password' => $_POST['password']]);
+        $user = $stmt->fetch();
+        $db = null;
+
+        if ($user) {
+            $_SESSION['id'] = $user['id'];
+            redirect_to_index();
+        }
+        else {
+            $error = 'L\'authentification a échouée.';
+        }
+    }
+    catch (PDOException $e) {
+        echo $e->getMessage();
+    }
+}
+
 ?>
+
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-    <meta http-equiv='content-type' content='text/html;charset=utf-8'/>
-    <title>Login</title>
     <meta charset="utf-8">
+    <title>Authentification</title>
 </head>
 <body>
-<div class="container">
-    <h3 class="text-center">Login</h3>
-    <?php
-    if (isset($_POST['submit'])) {
-
-        $username = $_POST['username'];
-        $password = $_POST['password'];
-
-        try {
-
-            $file_db = new PDO('sqlite:/usr/share/nginx/databases/database.sqlite');
-            $file_db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-            $stmt = $file_db->prepare('SELECT id FROM user WHERE username = :username AND password = :password');
-            $stmt->execute(['username' => $username, 'password' => $password]);
-            $res = $stmt->fetch();
-
-            //var_dump($res);
-
-            if ($res) {
-                $_SESSION['login'] = true;
-                $_SESSION['id'] = $res[0];
-                $_SESSION['username'] = $username;
-                header('LOCATION:index.php');
-                die();
-            }
-
-            echo "<div class='alert alert-danger'>Username and Password do not match.</div>";
-
-            // Close file db connection
-            $file_db = null;
-        } catch (PDOException $e) {
-            // Print PDOException message
-            echo $e->getMessage();
-        }
-
-
-    }
-    ?>
-    <form action="" method="post">
-        <div class="form-group">
-            <label for="username">Username:</label>
-            <input type="text" class="form-control" id="username" name="username" required>
-        </div>
-        <div class="form-group">
-            <label for="pwd">Password:</label>
-            <input type="password" class="form-control" id="pwd" name="password" required>
-        </div>
-        <button type="submit" name="submit" class="btn btn-default">Login</button>
+    <div><?php echo $error; ?></div>
+    <form action="login.php" method="post">
+        <label for="username">Nom d'utilisateur</label>
+        <input type="text" id="username" name="username">
+        <label for="password">Mot de passe</label>
+        <input type="password" id="password" name="password">
+        <button type="submit" name="submit">Authentification</button>
     </form>
-</div>
 </body>
 </html>

@@ -1,37 +1,37 @@
 <?php
 
+require_once 'util/db.php';
+require_once 'util/redirect.php';
+
 session_start();
 
+// perform logout if user has clicked the button
 if (isset($_POST['logout'])) {
     $_SESSION = array();
 }
 
-if (!isset($_SESSION['login'])) {
-    header('LOCATION:login.php');
-    die();
+// redirect to login if user is not logged in
+if (!isset($_SESSION['id'])) {
+    redirect_to_login();
 }
 
-echo 'Welcome ' . $_SESSION['username'] . '<br/>';
-
 try {
-    $file_db = new PDO('sqlite:/usr/share/nginx/databases/database.sqlite');
-    $file_db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $db = init_db();
 
-    $stmt = $file_db->prepare('SELECT * FROM message WHERE receiver = :receiver');
+    // retrieve user's messages
+    $stmt = $db->prepare('SELECT * FROM message WHERE receiver = :receiver');
     $stmt->execute(['receiver' => $_SESSION['id']]);
-    $res = $stmt->fetchAll();
+    $messages = $stmt->fetchAll();
+    $db = null;
 
-    foreach ($res as $row) {
-        echo "Id: " . $row['id'] . "<br/>";
-        echo "Title: " . $row['subject'] . "<br/>";
-        echo "Time: " . $row['date'] . "<br/>";
+    foreach ($messages as $message) {
+        echo "Id: " . $message['id'] . "<br/>";
+        echo "Title: " . $message['subject'] . "<br/>";
+        echo "Time: " . $message['date'] . "<br/>";
         echo "<br/>";
     }
-
-    // Close file db connection
-    $file_db = null;
-} catch (PDOException $e) {
-    // Print PDOException message
+}
+catch (PDOException $e) {
     echo $e->getMessage();
 }
 
