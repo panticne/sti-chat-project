@@ -28,6 +28,7 @@ if (isset($_POST['submit'])) {
 
 $pageTitle = 'Changement du mot de passe';
 include 'include/html_header.php';
+include 'include/html_menu.php';
 
 ?>
 

@@ -30,6 +30,7 @@ catch (PDOException $e) {
 
 $pageTitle = 'Accueil';
 include 'include/html_header.php';
+include 'include/html_menu.php';
 
 // display user messages
 echo '<table>';
@@ -57,9 +58,6 @@ foreach ($messages as $message) {
 echo '<table>';
 
 ?>
-
-    <a href="send.php">Envoyer un message</a><br>
-    <a href="pwd.php">Changer le mot de passe</a><br>
 
     <form action="" method="post">
         <button type="submit" name="logout">Logout</button>
