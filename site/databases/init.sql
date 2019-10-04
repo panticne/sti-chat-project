@@ -3,7 +3,7 @@ CREATE TABLE 'user'
     'id'        INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
     'firstname' TEXT                              NOT NULL,
     'lastname'  TEXT                              NOT NULL,
-    'username'  TEXT                              NOT NULL,
+    'username'  TEXT                              NOT NULL unique,
     'password'  TEXT                              NOT NULL,
     'admin'     BOOLEAN                           NOT NULL DEFAULT FALSE,
     'active'    BOOLEAN                           NOT NULL DEFAULT FALSE
