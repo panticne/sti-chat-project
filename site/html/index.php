@@ -31,12 +31,30 @@ catch (PDOException $e) {
 $pageTitle = 'Accueil';
 include 'include/html_header.php';
 
+// display user messages
+echo '<table>';
+echo '<caption>Messages</caption>';
+echo '<tr>';
+echo '<th>Date</th>';
+echo '<th>Expéditeur</th>';
+echo '<th>Sujet</th>';
+echo '<th>Lu</th>';
+echo '<th colspan="3">Actions</th>';
+echo '</tr>';
+
 foreach ($messages as $message) {
-    echo "Id: " . $message['id'] . "<br/>";
-    echo "Title: " . $message['subject'] . "<br/>";
-    echo "Time: " . $message['date'] . "<br/>";
-    echo "<br/>";
+    echo '<tr>';
+    echo '<td>' . $message['date'] . '</td>';
+    echo '<td>' . $message['sender'] . '</td>';
+    echo '<td>' . $message['subject'] . '</td>';
+    echo '<td>' . ($message['seen'] === true ? 'Oui' : 'Non') . '</td>';
+    echo '<td><a href="send.php?message=1">Répondre</a></td>';
+    echo '<td><a href="index.php?delete=1">Supprimer</a></td>';
+    echo '<td><a href="read.php?message=1">Ouvrir</a></td>';
+    echo '</tr>';
 }
+
+echo '<table>';
 
 ?>
 
