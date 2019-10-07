@@ -19,7 +19,7 @@ try {
     $db = init_db();
 
     // retrieve user's messages
-    $stmt = $db->prepare('SELECT * FROM message WHERE receiver = :receiver');
+    $stmt = $db->prepare('SELECT m.id, m.date, m.subject, m.content, m.seen, u.firstname sender_firstname, u.lastname sender_lastname FROM message m INNER JOIN user u ON u.id = m.sender WHERE receiver = :receiver');
     $stmt->execute(['receiver' => $_SESSION['id']]);
     $messages = $stmt->fetchAll();
     $db = null;
@@ -46,7 +46,7 @@ echo '</tr>';
 foreach ($messages as $message) {
     echo '<tr>';
     echo '<td>' . $message['date'] . '</td>';
-    echo '<td>' . $message['sender'] . '</td>';
+    echo '<td>' . $message['sender_firstname'] . ' ' . $message['sender_lastname'] . '</td>';
     echo '<td>' . $message['subject'] . '</td>';
     echo '<td>' . ($message['seen'] === true ? 'Oui' : 'Non') . '</td>';
     echo '<td><a href="send.php?message=1">Répondre</a></td>';
