@@ -39,67 +39,49 @@ elseif (isset($_POST['save'])) {
     echo '<p>' . $message . '</p>';
 }
 else {
-    echo '<form action="admin.php" method="post">';
-    echo '<select name="id">';
-    echo '<option>Choisissez un utilisateur</option>';
+    ?>
 
-    try {
-        $db = init_db();
+    <form action="admin.php" method="post">
+        <select name="id">
+            <option>Choisissez un utilisateur</option>
 
-        // retrieve all user
-        $stmt = $db->query('SELECT * FROM user');
-        $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        $db = null;
-    }
-    catch (PDOException $e) {
-        echo $e->getMessage();
-    }
+            <?php
+            foreach (get_all_users() as $user) {
+                echo '<option value="' . $user['id'] . '">' . $user['username'] . '</option>';
+            }
+            unset($user);
+            ?>
+        </select>
+        <button type="submit" name="delete">Supprimer</button>
+        <button type="submit" name="edit">Modifier</button>
+    </form>
 
-    foreach ($users as $user) {
-        echo '<option value="' . $user['id'] . '">' . $user['username'] . '</option>';
-    }
-
-    unset($user);
-    echo '</select>';
-
-    echo '<button type="submit" name="delete">Supprimer</button>';
-    echo '<button type="submit" name="edit">Modifier</button>';
-
-    echo '</form>';
-
+    <?php
     if (isset($_POST['edit'])) {
-        try {
-            $db = init_db();
-            $stmt = $db->prepare('SELECT * FROM user WHERE id = :id');
-            $stmt->execute(['id' => $_POST['id']]);
-            $user = $stmt->fetch(PDO::FETCH_ASSOC);
-        }
-        catch (PDOException $e) {
-            echo $e->getMessage();
-        }
+        $user = get_user($_POST['id']);
     }
     ?>
 
     <form action="admin.php" method="post">
-        <input type="hidden" name="id" value="<?= $user['id'] ?>">
+        <input type="hidden" name="id" value="<?= @$user['id'] ?>">
 
         <label for="username">Utilisateur</label>
-        <input name="username" id="username" value="<?= $user['username'] ?>">
+        <input name="username" id="username" value="<?= @$user['username'] ?>">
 
         <label for="firstname">Prénom</label>
-        <input name="firstname" id="firstname" value="<?= $user['firstname'] ?>">
+        <input name="firstname" id="firstname" value="<?= @$user['firstname'] ?>">
 
         <label for="lastname">Nom</label>
-        <input name="lastname" id="lastname" value="<?= $user['lastname'] ?>">
+        <input name="lastname" id="lastname" value="<?= @$user['lastname'] ?>">
 
         <label for="password">Mot de passe</label>
-        <input type="password" name="password" id="password" value="<?= $user['password'] ?>">
+        <input type="password" name="password" id="password" value="<?= @$user['password'] ?>">
 
         <label for="admin">Admin</label>
-        <input name="admin" id="admin" type="checkbox" <?= $user['admin'] ? "checked" : "" ?>>
+        <input name="admin" id="admin" type="checkbox" <?= @$user['admin'] ? "checked" : "" ?>>
 
         <label for="active">Actif</label>
-        <input name="active" id="active" type="checkbox" <?= $user['active'] ? "checked" : "" ?>>
+        <input name="active" id="active" type="checkbox" <?= @$user['active'] ? "checked" : "" ?>>
 
         <button type="submit" name="save">Sauver</button>
     </form>

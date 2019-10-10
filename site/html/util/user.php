@@ -61,3 +61,26 @@ function create_user($user)
         echo $e->getMessage();
     }
 }
+
+function get_all_users()
+{
+    try {
+        $stmt = $GLOBALS['db']->query('SELECT * FROM user');
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    catch (PDOException $e) {
+        echo $e->getMessage();
+    }
+}
+
+function get_user($userId)
+{
+    try {
+        $stmt = $GLOBALS['db']->prepare('SELECT * FROM user WHERE id = :id');
+        $stmt->execute(['id' => $_POST['id']]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    catch (PDOException $e) {
+        echo $e->getMessage();
+    }
+}
