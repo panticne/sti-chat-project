@@ -1,6 +1,7 @@
 <?php
 
 require_once 'util/db.php';
+require_once 'util/user.php';
 require_once 'util/redirect.php';
 
 session_start();
@@ -10,70 +11,32 @@ if (!isset($_SESSION['id'])) {
     redirect_to_login();
 }
 
+// redirect to index if user is not admin
+if (!is_admin($_SESSION['id'])) {
+    redirect_to_index();
+}
+
 $pageTitle = 'Administration';
 include 'include/html_header.php';
 include 'include/html_menu.php';
 
 if (isset($_POST['delete'])) {
 
-    try {
-        $db = init_db();
-        $stmt = $db->prepare('DELETE FROM user WHERE id = :id');
-        $stmt->execute(['id' => $_POST['id']]);
-        $res = $stmt->rowCount();
-        $db = null;
-
-        if ($res == 1) {
-            echo '<p>Utilisateur supprimé !</p>';
-        }
-        else {
-            echo '<p>Erreur lors de la suppression de l\'utilisateur !</p>';
-        }
-    }
-    catch (PDOException $e) {
-        echo $e->getMessage();
-    }
+    $message = delete_user($_POST['id']) ? 'Utilisateur supprimé !' : 'Erreur lors de la suppression de l\'utilisateur !';
+    echo '<p>' . $message . '</p>';
 }
 elseif (isset($_POST['save'])) {
 
-    try {
-        $db = init_db();
-
-        // check if user exists
-        $stmt = $db->prepare('SELECT COUNT(*) FROM user WHERE id = :id');
-        $stmt->execute(['id' => $_POST['id']]);
-        $res = $stmt->fetch();
-
-        if ($res[0] == 1) {
-            // update user
-            $stmt = $db->prepare('UPDATE user SET firstname = :firstname, lastname = :lastname, password = :password, admin = :admin, active = :active WHERE id = :id');
-            $stmt->execute(['firstname' => $_POST['firstname'], 'lastname' => $_POST['lastname'], 'password' => $_POST['password'], 'admin' => $_POST['admin'] == "on", 'active' => $_POST['active'] == "on", 'id' => $_POST['id']]);
-            $res = $stmt->rowCount();
-
-            if ($res == 1) {
-                echo '<p>Utilisateur mis à jour !</p>';
-            }
-            else {
-                echo '<p>Erreur lors de la mise à jour de l\'utilisateur !</p>';
-            }
-        }
-        else {
-            // insert user
-            $stmt = $db->prepare('INSERT INTO user (firstname, lastname, username, password, admin, active) VALUES (:firstname, :lastname, :username, :password, :admin, :active)');
-            $stmt->execute(['firstname' => $_POST['firstname'], 'lastname' => $_POST['lastname'], 'username' => $_POST['username'], 'password' => $_POST['password'], 'admin' => $_POST['admin'] == "on", 'active' => $_POST['active'] == "on"]);
-            $res = $stmt->rowCount();
-
-            if ($res == 1) {
-                echo '<p>Utilisateur créé !</p>';
-            }
-            else {
-                echo '<p>Erreur lors de la création de l\'utilisateur !</p>';
-            }
-        }
+    // update user
+    if (username_exists($_POST['username'])) {
+        $message = update_user($_POST) ? 'Utilisateur mis à jour !' : 'Erreur lors de la mise à jour de l\'utilisateur !';
     }
-    catch (PDOException $e) {
-        echo $e->getMessage();
+    // create user
+    else {
+        $message = create_user($_POST) ? 'Utilisateur créé !' : 'Erreur lors de la création de l\'utilisateur !';
     }
+
+    echo '<p>' . $message . '</p>';
 }
 else {
     echo '<form action="admin.php" method="post">';

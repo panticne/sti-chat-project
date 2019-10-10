@@ -1,5 +1,7 @@
 <?php
 
+$GLOBALS['db'] = init_db();
+
 /**
  * Initializes the database connection and return the created object.
  */
