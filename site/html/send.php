@@ -24,14 +24,14 @@ try{
         $db = init_db();
             
         // retrieve all user
-        $stmt = $db->prepare('SELECT m.id, m.subject, u.firstname sender_firstname, u.lastname sender_lastname FROM message m INNER JOIN user u ON u.id = m.sender WHERE m.id = :idmess');
-        $stmt->execute(['iddest' => $_GET['message']]);
+        $stmt = $db->prepare('SELECT m.id, m.subject, u.firstname sender_firstname, u.lastname sender_lastname, u.username FROM message m INNER JOIN user u ON u.id = m.sender WHERE m.id = :idmess');
+        $stmt->execute(['idmess' => $_GET['message']]);
         $users = $stmt->fetch();
         $db = null;
         echo '<form action="send.php" method="post"><br/>';
         echo '<input name="id" value="'.$users['username'].'">';
         echo '</select><br>';
-        echo '<input name="subject" value="RE :'.$users['m-subject'].'"><br/>';
+        echo '<input name="subject" value="RE : '.$users['subject'].'"><br/>';
         echo '<textarea name="body"></textarea><br/>';
         echo '<button type="submit" name="send">Envoyer</button>';
         echo '</form>';
@@ -41,7 +41,7 @@ try{
         // retrieve all user
         $stmt = $db->query('SELECT * FROM user');
         $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        $db = null;All(PDO::FETCH_ASSOC);
+        $db = null;
         echo '<form action="send.php" method="post"><br/>';        
         echo '<select name="id">';
         foreach ($users as $user) {
@@ -55,10 +55,9 @@ try{
         echo '</form>';
     }
 }
-catch(PDOException $e){
-    echo $e->getMesage();
+catch (PDOException $e) {
+    echo $e->getMessage();
 }
-
 if(isset($_POST['send'])){
     try{
         $db = init_db();
