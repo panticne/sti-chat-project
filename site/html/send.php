@@ -63,7 +63,7 @@ if(isset($_POST['send'])){
         $db = init_db();
         $stmt= $db->prepare('INSERT INTO message (date, sender, receiver, subject,
         content) VALUES (:date, :id,:id_dest,:subject, :content)');
-        $stmt->execute(['date' => '01-01-2000', 'id' =>$_SESSION['id'], 'id_dest' => $user['id'], 'subject' => $_POST['subject'], 'content' => $_POST['body']]);
+        $stmt->execute(['date' =>  date('Y-m-d'), 'id' =>$_SESSION['id'], 'id_dest' => $user['id'], 'subject' => $_POST['subject'], 'content' => $_POST['body']]);
         $res = $stmt->rowCount();
         $db = null;
         if ($res == 1) {
