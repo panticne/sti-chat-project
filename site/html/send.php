@@ -17,34 +17,49 @@ include 'include/html_menu.php';
 ?>
 <?php
 
-    echo '<form action="send.php" method="post"><br/>';
-    echo '<select name="id">';
-    echo '<option>Choisissez un utilisateur</option>';
 
-try {
-    $db = init_db();
+try{
+    
+    if(isset($_GET['message'])){
+        $db = init_db();
+            
+        // retrieve all user
+        $stmt = $db->prepare('SELECT m.id, m.subject, u.firstname sender_firstname, u.lastname sender_lastname FROM message m INNER JOIN user u ON u.id = m.sender WHERE m.id = :idmess');
+        $stmt->execute(['iddest' => $_GET['message']]);
+        $users = $stmt->fetch();
+        $db = null;
+        echo '<form action="send.php" method="post"><br/>';
+        echo '<input name="id" value="'.$users['username'].'">';
+        echo '</select><br>';
+        echo '<input name="subject" value="RE :'.$users['m-subject'].'"><br/>';
+        echo '<textarea name="body"></textarea><br/>';
+        echo '<button type="submit" name="send">Envoyer</button>';
+        echo '</form>';
 
-    // retrieve all user
-    $stmt = $db->query('SELECT * FROM user');
-    $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    $db = null;
+    }else{
+        $db = init_db();
+        // retrieve all user
+        $stmt = $db->query('SELECT * FROM user');
+        $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $db = null;All(PDO::FETCH_ASSOC);
+        echo '<form action="send.php" method="post"><br/>';        
+        echo '<select name="id">';
+        foreach ($users as $user) {
+            echo '<option value="' . $user['id'] . '">' . $user['username'] . '</option>';
+        }   
+        echo '<option>Choisissez un utilisateur</option>';
+        echo '</select><br>';
+        echo '<input name="subject" placeholder="Sujet"><br/>';
+        echo '<textarea name="body"></textarea><br/>';
+        echo '<button type="submit" name="send">Envoyer</button>';
+        echo '</form>';
+    }
 }
-catch (PDOException $e) {
-    echo $e->getMessage();
+catch(PDOException $e){
+    echo $e->getMesage();
 }
-
-foreach ($users as $user) {
-    echo '<option value="' . $user['id'] . '">' . $user['username'] . '</option>';
-}
-
-    echo '</select><br>';
-    echo '<input name="subject" placeholder="Sujet"><br/>';
-    echo '<textarea name="body"></textarea><br/>';
-    echo '<button type="submit" name="send">Envoyer</button>';
-    echo '</form>';
 
 if(isset($_POST['send'])){
-   // var_dump($_POST);
     try{
         $db = init_db();
         $stmt= $db->prepare('INSERT INTO message (date, sender, receiver, subject,
