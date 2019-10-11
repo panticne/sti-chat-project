@@ -77,7 +77,7 @@ function get_user($userId)
 {
     try {
         $stmt = $GLOBALS['db']->prepare('SELECT * FROM user WHERE id = :id');
-        $stmt->execute(['id' => $_POST['id']]);
+        $stmt->execute(['id' => $userId]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
     catch (PDOException $e) {

@@ -1,6 +1,7 @@
 <?php
 
 require_once 'util/db.php';
+require_once 'util/user.php';
 require_once 'util/redirect.php';
 
 session_start();
@@ -15,14 +16,15 @@ if (!isset($_SESSION['id'])) {
     redirect_to_login();
 }
 
+$user = get_user($_SESSION['id']);
 try {
     $db = init_db();
 
     // retrieve user's messages
     $stmt = $db->prepare('SELECT m.id, m.date, m.subject, m.content, m.seen, u.firstname sender_firstname, u.lastname sender_lastname FROM message m INNER JOIN user u ON u.id = m.sender WHERE receiver = :receiver');
     $stmt->execute(['receiver' => $_SESSION['id']]);
-
     $messages = $stmt->fetchAll();
+    $stmt2 = 
     $db = null;
 }
 catch (PDOException $e) {
@@ -31,7 +33,7 @@ catch (PDOException $e) {
 
 
 
-$pageTitle = 'Accueil';
+$pageTitle = 'Accueil - ' . $user['username'];
 include 'include/html_header.php';
 include 'include/html_menu.php';
 
