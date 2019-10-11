@@ -12,9 +12,7 @@ if (!isset($_SESSION['id'])) {
 
 if (isset($_POST['submit'])) {
 
-    $db = init_db();
-
-    $stmt = $db->prepare('UPDATE user SET password = :password WHERE id = :id');
+    $stmt = $GLOBALS['db']->prepare('UPDATE user SET password = :password WHERE id = :id');
     $stmt->execute(['password' => $_POST['password'], 'id' => $_SESSION['id']]);
     $rowCount = $stmt->rowCount();
 

@@ -43,7 +43,7 @@ else {
 
     <form action="admin.php" method="post">
         <select name="id">
-            <option>Choisissez un utilisateur</option>
+            <option disabled selected>Choisissez un utilisateur</option>
 
             <?php
             foreach (get_all_users() as $user) {

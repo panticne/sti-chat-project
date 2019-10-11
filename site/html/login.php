@@ -15,12 +15,9 @@ $error = '';
 if (isset($_POST['submit'])) {
 
     try {
-        $db = init_db();
-
-        $stmt = $db->prepare('SELECT id FROM user WHERE username = :username AND password = :password');
+        $stmt = $GLOBALS['db']->prepare('SELECT id FROM user WHERE username = :username AND password = :password');
         $stmt->execute(['username' => $_POST['username'], 'password' => $_POST['password']]);
         $user = $stmt->fetch();
-        $db = null;
 
         if ($user) {
             $_SESSION['id'] = $user['id'];
