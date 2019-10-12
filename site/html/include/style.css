@@ -1,0 +1,49 @@
+* {
+    font-family: sans-serif;
+}
+
+body {
+    max-width: 1000px;
+    margin: auto;
+}
+
+/* Navigation links */
+
+nav {
+    margin: 40px;
+}
+nav ul {
+    list-style-type: none;
+    padding: 0px;
+
+    display: flex;
+    justify-content: center;
+}
+
+nav ul li {
+    padding: 0px 15px;
+}
+
+nav ul a {
+    font-variant: small-caps;
+    color: inherit;
+}
+
+/* Message table */
+
+.messages {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.messages tr {
+    border-bottom: 1px solid black;
+}
+
+.messages th {
+    text-align: left;
+}
+
+.messages td, .messages th {
+    padding: 7px;
+}

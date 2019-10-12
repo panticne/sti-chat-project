@@ -16,5 +16,6 @@ if (isset($_SESSION['name'])) {
 <head>
     <meta charset="utf-8">
     <title><?= $pageTitle ?></title>
+    <link href="include/style.css" rel="stylesheet">
 </head>
 <body>

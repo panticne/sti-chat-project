@@ -18,14 +18,13 @@ include 'include/html_menu.php';
 
 ?>
 
-    <table>
-        <caption>Messages</caption>
+    <table class="messages">
         <tr>
             <th>Date</th>
             <th>Expéditeur</th>
             <th>Sujet</th>
             <th>Lu</th>
-            <th colspan="3">Actions</th>
+            <th colspan="3"></th>
         </tr>
 
         <?php
