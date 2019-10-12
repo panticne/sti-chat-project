@@ -7,8 +7,8 @@ CREATE TABLE IF NOT EXISTS 'user'
     'lastname'  TEXT                              NOT NULL,
     'username'  TEXT                              NOT NULL unique,
     'password'  TEXT                              NOT NULL,
-    'admin'     BOOLEAN                           NOT NULL DEFAULT FALSE,
-    'active'    BOOLEAN                           NOT NULL DEFAULT FALSE
+    'admin'     BOOLEAN                           NOT NULL DEFAULT 0,
+    'active'    BOOLEAN                           NOT NULL DEFAULT 0
 );
 INSERT INTO user VALUES(1,'Jérôme','Bagnoud','jerome','mypwd',0,1);
 INSERT INTO user VALUES(2,'Mickael','Bonjour','mickael','mypwd',0,0);
@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS 'message'
     'receiver' INTEGER                           NOT NULL,
     'subject'  TEXT,
     'content'  TEXT,
-    'seen'     BOOLEAN                           NOT NULL DEFAULT FALSE,
+    'seen'     BOOLEAN                           NOT NULL DEFAULT 0,
     FOREIGN KEY (sender) REFERENCES user (id),
     FOREIGN KEY (receiver) REFERENCES user (id)
 );
