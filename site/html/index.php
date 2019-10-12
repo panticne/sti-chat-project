@@ -37,7 +37,7 @@ include 'include/html_menu.php';
             echo '<td>' . $m['subject'] . '</td>';
             echo '<td>' . ($m['seen'] ? 'Oui' : 'Non') . '</td>';
             echo '<td>' . ($senderExists ? '<a href="send.php?message=' . $m['id'] . '">Répondre</a>' : '') . '</td>';
-            echo '<td><a href="index.php?delete=' . $m['id'] . '">Supprimer</a></td>';
+            echo '<td><a href="delete.php?delete=' . $m['id'] . '">Supprimer</a></td>';
             echo '<td><a href="read.php?message=' . $m['id'] . '">Ouvrir</a>' . '</td>';
             echo '</tr>';
         }
