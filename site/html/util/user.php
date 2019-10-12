@@ -40,6 +40,19 @@ function update_user($user)
     }
 }
 
+function update_password($userId, $newPassword)
+{
+    try {
+        $stmt = $GLOBALS['db']->prepare('UPDATE user SET password = :password WHERE id = :id');
+        $stmt->execute(['password' => $newPassword, 'id' => $userId]);
+        return $stmt->rowCount() == 1;
+    }
+    catch (PDOException $e) {
+        echo $e->getMessage();
+        return false;
+    }
+}
+
 function create_user($user)
 {
     try {

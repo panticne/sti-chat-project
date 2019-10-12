@@ -12,15 +12,11 @@ if (!isset($_SESSION['id'])) {
 
 if (isset($_POST['submit'])) {
 
-    $stmt = $GLOBALS['db']->prepare('UPDATE user SET password = :password WHERE id = :id');
-    $stmt->execute(['password' => $_POST['password'], 'id' => $_SESSION['id']]);
-    $rowCount = $stmt->rowCount();
-
-    if ($rowCount == 1) {
+    if (update_password($_SESSION['id'], $_POST['password'])) {
         echo "Mot de passe changé !";
     }
     else {
-        echo "Echec du changement de mot de passe !";
+        echo "Échec du changement de mot de passe !";
     }
 }
 
