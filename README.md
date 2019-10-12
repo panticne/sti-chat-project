@@ -1,19 +1,16 @@
-Si vous utilisez l'image Docker proposée pour le cours, vous pouvez copier directement le repertoire "site" et son contenu (explications dans la donnée du projet).
+# Application de messagerie
 
-Le repertoire "site" contient deux repertoires :
+* **Date** : 16.10.2019
+* **Auteurs** : Nikolaos Garanis, Samuel Mettler.
 
-    - databases
-    - html
+## Lancement de l'application
 
-Le repertoire "databases" contient :
+L'application peut être lancée dans un containeur Docker et sera disponible à  travers le port 8888 de la machine locale. Il suffit pour cela d'exécuter le script `script.sh` disponible à la racine du projet.
 
-    - database.sqlite : un fichier de base de données SQLite
+## Création de la base de données
 
-Le repertoire "html" contient :
+La base de données peut être créée à partir du fichier `site/databases/dump.sql` en exécutant le script `create_db.sh`. La base de données `database.sqlite` est créée.
 
-    - exemple.php : un fichier php qui réalise des opérations basiques SQLite sur le fichier contenu dans le repertoire databases
-    - helloworld.php : un simple fichier hello world pour vous assurer que votre container Docker fonctionne correctement
-    - phpliteadmin.php : une interface d'administration pour la base de données SQLite qui se trouve dans le repertoire databases
+## Image Docker
 
-Le mot de passe pour phpliteadmin est "admin".
-
+Nous avons étendue l'image Docker fournie afin d'y modifier la configuration de PHP (voir le fichier `Dockerfile`), nous permettant de voir à l'écran les éventuelles erreurs et warnings PHP. Ces options ne doivent évidemment être utilisées que lors de la phase de développement.
