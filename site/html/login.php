@@ -1,6 +1,7 @@
 <?php
 
 require_once 'util/db.php';
+require_once 'util/user.php';
 require_once 'util/redirect.php';
 
 session_start();
@@ -19,24 +20,17 @@ if (isset($_SESSION['id'])) {
 $error = '';
 if (isset($_POST['submit'])) {
 
-    try {
-        $stmt = $GLOBALS['db']->prepare('SELECT id, active FROM user WHERE username = :username AND password = :password');
-        $stmt->execute(['username' => $_POST['username'], 'password' => $_POST['password']]);
-        $user = $stmt->fetch();
-
-        if ($user && $user['active'] == 1) {
-            $_SESSION['id'] = $user['id'];
-            redirect_to_index();
-        }
-        else if ($user['active'] == 0) {
-            $error = 'Votre compte est inactif.';
-        }
-        else {
-            $error = 'L\'authentification a échouée.';
-        }
+    $user = get_user_with_username($_POST['username']);
+    if ($user && $user['password'] == $_POST['password'] && $user['active'] == 1) {
+        $_SESSION['id'] = $user['id'];
+        $_SESSION['name'] = $user['firstname'] . ' ' . $user['lastname'];
+        redirect_to_index();
     }
-    catch (PDOException $e) {
-        echo $e->getMessage();
+    else if ($user['active'] == 0) {
+        $error = 'Votre compte est inactif.';
+    }
+    else {
+        $error = 'L\'authentification a échouée.';
     }
 }
 

@@ -12,8 +12,7 @@ if (!isset($_SESSION['id'])) {
     redirect_to_login();
 }
 
-$user = get_user($_SESSION['id']);
-$pageTitle = 'Accueil – ' . $user['username'];
+$pageTitle = 'Accueil';
 include 'include/html_header.php';
 include 'include/html_menu.php';
 

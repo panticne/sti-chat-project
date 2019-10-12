@@ -27,20 +27,6 @@ function delete_user($userId)
     }
 }
 
-function username_exists($username)
-{
-    try {
-        $stmt = $GLOBALS['db']->prepare('SELECT COUNT(*) FROM user WHERE username = :username');
-        $stmt->execute(['username' => $username]);
-        $res = $stmt->fetch();
-        return $res[0] == 1;
-    }
-    catch (PDOException $e) {
-        echo $e->getMessage();
-        return false;
-    }
-}
-
 function update_user($user)
 {
     try {
@@ -79,12 +65,25 @@ function get_all_users()
     }
 }
 
-function get_user($userId)
+function get_user_with_id($userId)
 {
     try {
         $stmt = $GLOBALS['db']->prepare('SELECT * FROM user WHERE id = :id');
         $stmt->execute(['id' => $userId]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    catch (PDOException $e) {
+        echo $e->getMessage();
+        return false;
+    }
+}
+
+function get_user_with_username($username)
+{
+    try {
+        $stmt = $GLOBALS['db']->prepare('SELECT * FROM user WHERE username = :username');
+        $stmt->execute(['username' => $username]);
+        return $stmt->fetch();
     }
     catch (PDOException $e) {
         echo $e->getMessage();

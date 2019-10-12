@@ -21,14 +21,13 @@ include 'include/html_header.php';
 include 'include/html_menu.php';
 
 if (isset($_POST['delete'])) {
-
     $message = delete_user($_POST['id']) ? 'Utilisateur supprimé !' : 'Erreur lors de la suppression de l\'utilisateur !';
     echo '<p>' . $message . '</p>';
 }
 elseif (isset($_POST['save'])) {
 
     // update user
-    if (username_exists($_POST['username'])) {
+    if (get_user_with_username($_POST['username'])) {
         $message = update_user($_POST) ? 'Utilisateur mis à jour !' : 'Erreur lors de la mise à jour de l\'utilisateur !';
     }
     // create user
@@ -47,18 +46,18 @@ else {
 
             <?php
             foreach (get_all_users() as $user) {
-                echo '<option value="' . $user['id'] . '">' . $user['username'] . '</option>';
+                echo '<option value="' . $user['id'] . '">' . $user['firstname'] . ' ' . $user['lastname'] . '</option>';
             }
             unset($user);
             ?>
         </select>
         <button type="submit" name="delete">Supprimer</button>
         <button type="submit" name="edit">Modifier</button>
-    </form>
+    </form><br>
 
     <?php
     if (isset($_POST['edit'])) {
-        $user = get_user($_POST['id']);
+        $user = get_user_with_id($_POST['id']);
     }
     ?>
 
@@ -66,22 +65,22 @@ else {
         <input type="hidden" name="id" value="<?= @$user['id'] ?>">
 
         <label for="username">Utilisateur</label>
-        <input name="username" id="username" value="<?= @$user['username'] ?>">
+        <input name="username" id="username" value="<?= @$user['username'] ?>"><br>
 
         <label for="firstname">Prénom</label>
-        <input name="firstname" id="firstname" value="<?= @$user['firstname'] ?>">
+        <input name="firstname" id="firstname" value="<?= @$user['firstname'] ?>"><br>
 
         <label for="lastname">Nom</label>
-        <input name="lastname" id="lastname" value="<?= @$user['lastname'] ?>">
+        <input name="lastname" id="lastname" value="<?= @$user['lastname'] ?>"><br>
 
         <label for="password">Mot de passe</label>
-        <input type="password" name="password" id="password" value="<?= @$user['password'] ?>">
+        <input type="password" name="password" id="password" value="<?= @$user['password'] ?>"><br>
 
         <label for="admin">Admin</label>
-        <input name="admin" id="admin" type="checkbox" <?= @$user['admin'] ? "checked" : "" ?>>
+        <input name="admin" id="admin" type="checkbox" <?= @$user['admin'] ? "checked" : "" ?>><br>
 
         <label for="active">Actif</label>
-        <input name="active" id="active" type="checkbox" <?= @$user['active'] ? "checked" : "" ?>>
+        <input name="active" id="active" type="checkbox" <?= @$user['active'] ? "checked" : "" ?>><br>
 
         <button type="submit" name="save">Sauver</button>
     </form>
