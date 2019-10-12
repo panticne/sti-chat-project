@@ -12,7 +12,7 @@ if (!isset($_SESSION['id'])) {
 }
 
 $message = get_message($_GET['message']);
-$hasSender = !empty($message['sender']);
+$senderExists = !empty($message['sender']);
 
 // mark message as read
 is_read($_GET['message']);
@@ -23,24 +23,27 @@ include 'include/html_menu.php';
 
 ?>
 
-<table>
-    <tr>
-        <td>Expéditeur</td>
-        <td><?= ($hasSender ? $message['sender'] : '<em>Inconnu</em>') ?></td>
-    </tr>
-    <tr>
-        <td>Date</td>
-        <td><?= $message['date'] ?></td>
-    </tr>
-    <tr>
-        <td>Sujet</td>
-        <td><?= $message['subject'] ?></td>
-    </tr>
-    <tr>
-        <td>Message</td>
-        <td><?= $message['content'] ?></td>
-    </tr>
-</table>
+    <table>
+        <tr>
+            <td>Expéditeur</td>
+            <td><?= ($senderExists ? $message['sender'] : '<em>Inconnu</em>') ?></td>
+        </tr>
+        <tr>
+            <td>Date</td>
+            <td><?= $message['date'] ?></td>
+        </tr>
+        <tr>
+            <td>Sujet</td>
+            <td><?= $message['subject'] ?></td>
+        </tr>
+        <tr>
+            <td>Message</td>
+            <td><?= $message['content'] ?></td>
+        </tr>
+    </table>
+
+    <a href="send.php?message=<?= $message['id'] ?>">Répondre</a><br>
+    <a href="index.php?delete=<?= $message['id'] ?>">Supprimer</a>
 
 <?php
 

@@ -7,11 +7,6 @@ require_once 'util/redirect.php';
 
 session_start();
 
-// perform logout if user has clicked the button
-if (isset($_POST['logout'])) {
-    $_SESSION = array();
-}
-
 // redirect to login if user is not logged in
 if (!isset($_SESSION['id'])) {
     redirect_to_login();
@@ -36,15 +31,14 @@ include 'include/html_menu.php';
 
         <?php
         foreach (get_user_messages($_SESSION['id']) as $m) {
-
-            $hasSender = !empty($m['sender']);
+            $senderExists = !empty($m['sender']);
 
             echo '<tr>';
             echo '<td>' . $m['date'] . '</td>';
-            echo '<td>' . ($hasSender ? $m['sender'] : '<em>Inconnu</em>') . '</td>';
+            echo '<td>' . ($senderExists ? $m['sender'] : '<em>Inconnu</em>') . '</td>';
             echo '<td>' . $m['subject'] . '</td>';
-            echo '<td>' . ($m['seen'] == 'TRUE' ? 'Oui' : 'Non') . '</td>';
-            echo '<td>' . ($hasSender ? '<a href="send.php?message=' . $m['id'] . '">Répondre</a>' : '') . '</td>';
+            echo '<td>' . ($m['seen'] ? 'Oui' : 'Non') . '</td>';
+            echo '<td>' . ($senderExists ? '<a href="send.php?message=' . $m['id'] . '">Répondre</a>' : '') . '</td>';
             echo '<td><a href="index.php?delete=' . $m['id'] . '">Supprimer</a></td>';
             echo '<td><a href="read.php?message=' . $m['id'] . '">Ouvrir</a>' . '</td>';
             echo '</tr>';

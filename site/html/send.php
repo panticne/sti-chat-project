@@ -1,6 +1,8 @@
 <?php
 
 require_once 'util/db.php';
+require_once 'util/user.php';
+require_once 'util/message.php';
 require_once 'util/redirect.php';
 
 session_start();
@@ -14,62 +16,66 @@ $pageTitle = 'Envoyer un message';
 include 'include/html_header.php';
 include 'include/html_menu.php';
 
-try {
-    if (isset($_GET['message'])) {
+// replying to an existing message
+if (isset($_GET['message'])) {
 
-        $stmt = $GLOBALS['db']->prepare('SELECT m.id, m.subject, u.id sender_id, u.firstname sender_firstname, u.lastname sender_lastname, u.username FROM message m INNER JOIN user u ON u.id = m.sender WHERE m.id = :idmess');
-        $stmt->execute(['idmess' => $_GET['message']]);
-        $user = $stmt->fetch();
-
-        echo '<form action="send.php" method="post"><br/>';
-        echo '<select name="id">';
-        echo '<option value="' . $user['sender_id'] . '">' . $user['sender_firstname'] . ' ' . $user['sender_lastname'] . '</option>';
-        echo '</select><br>';
-        echo '<input name="subject" value="RE : ' . $user['subject'] . '"><br/>';
-        echo '<textarea name="body"></textarea><br/>';
-        echo '<button type="submit" name="send">Envoyer</button>';
-        echo '</form>';
+    $message = get_message($_GET['message']);
+    if (!$message) {
+        echo '<p>Ce message n\'existe pas ou a été supprimé !</p>';
+        exit();
     }
-    else {
-        // retrieve all user
-        $stmt = $GLOBALS['db']->query('SELECT * FROM user');
-        $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        echo '<form action="send.php" method="post"><br/>';
-        echo '<select name="id">';
-        echo '<option disabled selected>Choisissez un utilisateur</option>';
-
-        foreach ($users as $user) {
-            echo '<option value="' . $user['id'] . '">' . $user['firstname'] . ' ' . $user['lastname'] . '</option>';
-        }
-        unset($user);
-
-        echo '</select><br>';
-        echo '<input name="subject" placeholder="Sujet"><br/>';
-        echo '<textarea name="body"></textarea><br/>';
-        echo '<button type="submit" name="send">Envoyer</button>';
-        echo '</form>';
+    $senderExists = !empty($message['sender']);
+    if (!$senderExists) {
+        echo '<p>L\'utilisateur n\'existe pas ou a été supprimé !</p>';
+        exit();
     }
+    ?>
+
+    <form action="send.php" method="post">
+        <select name="id" disabled>
+            <option value="<?= $message['sender_id'] ?>"><?= $message['sender'] ?></option>
+        </select><br>
+        <input name="subject" value="Re : <?= $message['subject'] ?>"><br/>
+        <textarea name="body"></textarea><br/>
+        <button type="submit" name="send">Envoyer</button>
+    </form>
+
+    <?php
 }
-catch (PDOException $e) {
-    echo $e->getMessage();
+// sending a new message
+else {
+    $users = get_all_users();
+    ?>
+
+    <form action="send.php" method="post">
+        <select name="id">
+            <option disabled selected>Choisissez un destinataire</option>
+
+            <?php
+            foreach ($users as $user) {
+                echo '<option value="' . $user['id'] . '">' . $user['firstname'] . ' ' . $user['lastname'] . '</option>';
+            }
+            unset($user);
+            ?>
+
+        </select><br>
+        <input name="subject" placeholder="Sujet"><br/>
+        <textarea name="body"></textarea><br/>
+        <button type="submit" name="send">Envoyer</button>
+    </form>
+
+    <?php
 }
 
 if (isset($_POST['send'])) {
-    try {
-        $stmt = $GLOBALS['db']->prepare('INSERT INTO message (date, sender, receiver, subject, content) VALUES (:date, :id, :id_dest, :subject, :content)');
-        $stmt->execute(['date' => date('d-m-Y'), 'id' => $_SESSION['id'], 'id_dest' => $_POST['id'], 'subject' => $_POST['subject'], 'content' => $_POST['body']]);
-        $res = $stmt->rowCount();
 
-        if ($res == 1) {
-            echo '<p>Message envoyé !</p>';
-        }
-        else {
-            echo '<p>Échec de l\'envoi du message !</p>';
-        }
+    $res = send_message(date('Y-m-d'), $_SESSION['id'], $_POST['id'], $_POST['subject'], $_POST['body']);
+    if ($res) {
+        echo '<p>Message envoyé !</p>';
     }
-    catch (PDOException $e) {
-        echo $e->getMessage();
+    else {
+        echo '<p>Échec de l\'envoi du message !</p>';
     }
 }
 

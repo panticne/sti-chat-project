@@ -1,6 +1,6 @@
 <?php require_once 'util/user.php'; ?>
 
-<form action="" method="post">
+<form action="login.php" method="post">
     <button type="submit" name="logout">Logout</button>
 </form>
 

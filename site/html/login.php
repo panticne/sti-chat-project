@@ -5,6 +5,11 @@ require_once 'util/redirect.php';
 
 session_start();
 
+// perform logout if user has clicked the button
+if (isset($_POST['logout'])) {
+    $_SESSION = array();
+}
+
 // redirect to index.php if user is already logged in
 if (isset($_SESSION['id'])) {
     redirect_to_index();
