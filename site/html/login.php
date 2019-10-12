@@ -15,13 +15,16 @@ $error = '';
 if (isset($_POST['submit'])) {
 
     try {
-        $stmt = $GLOBALS['db']->prepare('SELECT id FROM user WHERE username = :username AND password = :password');
+        $stmt = $GLOBALS['db']->prepare('SELECT id, active FROM user WHERE username = :username AND password = :password');
         $stmt->execute(['username' => $_POST['username'], 'password' => $_POST['password']]);
         $user = $stmt->fetch();
 
-        if ($user) {
+        if ($user && $user['active'] == 1) {
             $_SESSION['id'] = $user['id'];
             redirect_to_index();
+        }
+        else if ($user['active'] == 0) {
+            $error = 'Votre compte est inactif.';
         }
         else {
             $error = 'L\'authentification a échouée.';
@@ -37,7 +40,7 @@ include 'include/html_header.php';
 
 ?>
 
-    <div><?php echo $error; ?></div>
+    <div><?= $error ?></div>
     <form action="login.php" method="post">
         <label for="username">Nom d'utilisateur</label>
         <input type="text" id="username" name="username"><br>

@@ -10,6 +10,7 @@ function is_admin($userId)
     }
     catch (PDOException $e) {
         echo $e->getMessage();
+        return false;
     }
 }
 
@@ -22,6 +23,7 @@ function delete_user($userId)
     }
     catch (PDOException $e) {
         echo $e->getMessage();
+        return false;
     }
 }
 
@@ -35,6 +37,7 @@ function username_exists($username)
     }
     catch (PDOException $e) {
         echo $e->getMessage();
+        return false;
     }
 }
 
@@ -47,6 +50,7 @@ function update_user($user)
     }
     catch (PDOException $e) {
         echo $e->getMessage();
+        return false;
     }
 }
 
@@ -59,6 +63,7 @@ function create_user($user)
     }
     catch (PDOException $e) {
         echo $e->getMessage();
+        return false;
     }
 }
 
@@ -70,6 +75,7 @@ function get_all_users()
     }
     catch (PDOException $e) {
         echo $e->getMessage();
+        return false;
     }
 }
 
@@ -82,5 +88,6 @@ function get_user($userId)
     }
     catch (PDOException $e) {
         echo $e->getMessage();
+        return false;
     }
 }

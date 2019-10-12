@@ -1,6 +1,7 @@
 <?php
 
 require_once 'util/db.php';
+require_once 'util/message.php';
 require_once 'util/redirect.php';
 
 session_start();
@@ -10,26 +11,37 @@ if (!isset($_SESSION['id'])) {
     redirect_to_login();
 }
 
-try {
-    $stmt = $GLOBALS['db']->prepare('SELECT m.id, m.date, m.subject, m.content, m.seen, u.firstname sender_firstname, u.lastname sender_lastname FROM message m INNER JOIN user u ON u.id = m.sender WHERE m.id = :idmess');
-    $stmt->execute(['idmess' => $_GET['message']]);
-    $message = $stmt->fetch();
+$message = get_message($_GET['message']);
+$hasSender = !empty($message['sender']);
 
-    $stmt2 = $GLOBALS['db']->prepare('UPDATE message SET seen = \'TRUE\' WHERE id = :idmess');
-    $stmt2->execute(['idmess' => $_GET['message']]);
-}
-catch (PDOException $e) {
-    echo $e->getMessage();
-}
+// mark message as read
+is_read($_GET['message']);
 
 $pageTitle = 'Lecture Message';
 include 'include/html_header.php';
 include 'include/html_menu.php';
 
-echo '<td>' . 'Expéditeur : ' . $message['sender_firstname'] . ' ' . $message['sender_lastname'] . '</td>' . '<td>' . ' le ' . $message['date'] . '</td>' . '<br>';
-echo '<td>' . 'Sujet : ' . $message['subject'] . '</td>' . '<br>';
-echo '<td>' . $message['content'] . '</td>';
+?>
+
+<table>
+    <tr>
+        <td>Expéditeur</td>
+        <td><?= ($hasSender ? $message['sender'] : '<em>Inconnu</em>') ?></td>
+    </tr>
+    <tr>
+        <td>Date</td>
+        <td><?= $message['date'] ?></td>
+    </tr>
+    <tr>
+        <td>Sujet</td>
+        <td><?= $message['subject'] ?></td>
+    </tr>
+    <tr>
+        <td>Message</td>
+        <td><?= $message['content'] ?></td>
+    </tr>
+</table>
+
+<?php
 
 include 'include/html_footer.php';
-
-?>

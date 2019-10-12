@@ -2,6 +2,7 @@
 
 require_once 'util/db.php';
 require_once 'util/user.php';
+require_once 'util/message.php';
 require_once 'util/redirect.php';
 
 session_start();
@@ -17,43 +18,41 @@ if (!isset($_SESSION['id'])) {
 }
 
 $user = get_user($_SESSION['id']);
-try {
-    // retrieve user's messages
-    $stmt = $GLOBALS['db']->prepare('SELECT m.id, m.date, m.subject, m.content, m.seen, u.firstname sender_firstname, u.lastname sender_lastname FROM message m INNER JOIN user u ON u.id = m.sender WHERE receiver = :receiver');
-    $stmt->execute(['receiver' => $_SESSION['id']]);
-    $messages = $stmt->fetchAll();
-}
-catch (PDOException $e) {
-    echo $e->getMessage();
-}
-
 $pageTitle = 'Accueil – ' . $user['username'];
 include 'include/html_header.php';
 include 'include/html_menu.php';
 
-// display user messages
-echo '<table>';
-echo '<caption>Messages</caption>';
-echo '<tr>';
-echo '<th>Date</th>';
-echo '<th>Expéditeur</th>';
-echo '<th>Sujet</th>';
-echo '<th>Lu</th>';
-echo '<th colspan="3">Actions</th>';
-echo '</tr>';
+?>
 
-foreach ($messages as $message) {
-    echo '<tr>';
-    echo '<td>' . $message['date'] . '</td>';
-    echo '<td>' . $message['sender_firstname'] . ' ' . $message['sender_lastname'] . '</td>';
-    echo '<td>' . $message['subject'] . '</td>';
-    echo '<td>' . ($message['seen'] === 'TRUE' ? 'Oui' : 'Non') . '</td>';
-    echo '<td><a href="send.php?message=' . $message['id'] . '">Répondre</a></td>';
-    echo '<td><a href="index.php?delete=' . $message['id'] . '">Supprimer</a></td>';
-    echo '<td><a href="read.php?message=' . $message['id'] . '">Ouvrir</a>' . '</td>';
-    echo '</tr>';
-}
+    <table>
+        <caption>Messages</caption>
+        <tr>
+            <th>Date</th>
+            <th>Expéditeur</th>
+            <th>Sujet</th>
+            <th>Lu</th>
+            <th colspan="3">Actions</th>
+        </tr>
 
-echo '<table>';
+        <?php
+        foreach (get_user_messages($_SESSION['id']) as $m) {
+
+            $hasSender = !empty($m['sender']);
+
+            echo '<tr>';
+            echo '<td>' . $m['date'] . '</td>';
+            echo '<td>' . ($hasSender ? $m['sender'] : '<em>Inconnu</em>') . '</td>';
+            echo '<td>' . $m['subject'] . '</td>';
+            echo '<td>' . ($m['seen'] == 'TRUE' ? 'Oui' : 'Non') . '</td>';
+            echo '<td>' . ($hasSender ? '<a href="send.php?message=' . $m['id'] . '">Répondre</a>' : '') . '</td>';
+            echo '<td><a href="index.php?delete=' . $m['id'] . '">Supprimer</a></td>';
+            echo '<td><a href="read.php?message=' . $m['id'] . '">Ouvrir</a>' . '</td>';
+            echo '</tr>';
+        }
+        ?>
+
+    </table>
+
+<?php
 
 include 'include/html_footer.php';
