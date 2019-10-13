@@ -50,3 +50,15 @@ function send_message($date, $senderId, $receiverId, $subject, $content)
         echo $e->getMessage();
     }
 }
+
+function delete_message($idMessage)
+{
+    try {
+        $stmt = $GLOBALS['db']->prepare('DELETE FROM message WHERE id = :idMessage');
+        $stmt->execute(['idMessage' => $idMessage]);
+        return $stmt->rowCount() == 1;
+    }
+    catch (PDOException $e) {
+        echo $e->getMessage();
+    }
+}
