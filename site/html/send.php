@@ -37,7 +37,8 @@ if (isset($_GET['message'])) {
             <option value="<?= $message['sender_id'] ?>"><?= $message['sender'] ?></option>
         </select>
         <input type="text" name="subject" value="Re : <?= $message['subject'] ?>">
-        <textarea name="body"><?= "\n\n\n\n—— Message précédent [" . $message['date'] . "] ——\n" . $message['content'] ?></textarea>
+        <textarea
+                name="body"><?= "\n\n\n\n—— Message précédent [" . $message['date'] . "] ——\n" . $message['content'] ?></textarea>
         <button type="submit" name="send">Envoyer</button>
     </form>
 
@@ -70,12 +71,17 @@ else {
 
 if (isset($_POST['send'])) {
 
-    $res = send_message(date('Y-m-d H:i'), $_SESSION['id'], $_POST['id'], $_POST['subject'], $_POST['body']);
-    if ($res) {
-        echo '<p>Message envoyé !</p>';
+    if (!isset($_POST['id'])) {
+        echo '<p>Choisissez un destinataire.</p>';
     }
     else {
-        echo '<p>Échec de l\'envoi du message !</p>';
+        $res = send_message(date('Y-m-d H:i'), $_SESSION['id'], $_POST['id'], $_POST['subject'], $_POST['body']);
+        if ($res) {
+            echo '<p>Message envoyé !</p>';
+        }
+        else {
+            echo '<p>Échec de l\'envoi du message !</p>';
+        }
     }
 }
 

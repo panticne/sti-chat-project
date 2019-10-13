@@ -15,7 +15,7 @@ $pageTitle = 'Changement du mot de passe';
 include 'include/html_header.php';
 include 'include/html_menu.php';
 
-if (isset($_POST['submit'])) {
+if (isset($_POST['submit']) && !empty($_POST['password'])) {
 
     if (update_password($_SESSION['id'], $_POST['password'])) {
         echo "Mot de passe changé !";

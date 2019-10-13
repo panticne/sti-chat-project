@@ -20,11 +20,11 @@ $pageTitle = 'Administration';
 include 'include/html_header.php';
 include 'include/html_menu.php';
 
-if (isset($_POST['delete'])) {
+if (isset($_POST['delete']) && isset($_POST['id'])) {
     $message = delete_user($_POST['id']) ? 'Utilisateur supprimé !' : 'Erreur lors de la suppression de l\'utilisateur !';
     echo '<p>' . $message . '</p>';
 }
-elseif (isset($_POST['save'])) {
+elseif (isset($_POST['save']) && !empty($_POST['username'])) {
 
     // update user
     if (get_user_with_username($_POST['username'])) {
@@ -56,7 +56,7 @@ else {
     </form><br>
 
     <?php
-    if (isset($_POST['edit'])) {
+    if (isset($_POST['edit']) && isset($_POST['id'])) {
         $user = get_user_with_id($_POST['id']);
     }
     ?>

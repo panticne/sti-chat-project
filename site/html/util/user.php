@@ -55,6 +55,10 @@ function update_password($userId, $newPassword)
 
 function create_user($user)
 {
+    if (empty($user['username']) || empty($user['firstname']) || empty($user['lastname']) || empty($user['password'])) {
+        return false;
+    }
+
     try {
         $stmt = $GLOBALS['db']->prepare('INSERT INTO user (firstname, lastname, username, password, admin, active) VALUES (:firstname, :lastname, :username, :password, :admin, :active)');
         $stmt->execute(['firstname' => $user['firstname'], 'lastname' => $user['lastname'], 'username' => $user['username'], 'password' => $user['password'], 'admin' => isset($user['admin']), 'active' => isset($user['active'])]);
