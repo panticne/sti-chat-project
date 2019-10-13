@@ -32,12 +32,12 @@ if (isset($_GET['message'])) {
     }
     ?>
 
-    <form action="send.php" method="post">
-        <select name="id" disabled>
+    <form action="send.php" method="post" class="send">
+        <select name="id">
             <option value="<?= $message['sender_id'] ?>"><?= $message['sender'] ?></option>
-        </select><br>
-        <input name="subject" value="Re : <?= $message['subject'] ?>"><br/>
-        <textarea name="body"></textarea><br/>
+        </select>
+        <input type="text" name="subject" value="Re : <?= $message['subject'] ?>">
+        <textarea name="body"><?= "\n\n\n\n—— Message précédent [" . $message['date'] . "] ——\n" . $message['content'] ?></textarea>
         <button type="submit" name="send">Envoyer</button>
     </form>
 
@@ -48,7 +48,7 @@ else {
     $users = get_all_users();
     ?>
 
-    <form action="send.php" method="post">
+    <form action="send.php" method="post" class="send">
         <select name="id">
             <option disabled selected>Choisissez un destinataire</option>
 
@@ -59,9 +59,9 @@ else {
             unset($user);
             ?>
 
-        </select><br>
-        <input name="subject" placeholder="Sujet"><br/>
-        <textarea name="body"></textarea><br/>
+        </select>
+        <input type="text" name="subject" placeholder="Sujet">
+        <textarea name="body"></textarea>
         <button type="submit" name="send">Envoyer</button>
     </form>
 
@@ -70,7 +70,7 @@ else {
 
 if (isset($_POST['send'])) {
 
-    $res = send_message(date('Y-m-d'), $_SESSION['id'], $_POST['id'], $_POST['subject'], $_POST['body']);
+    $res = send_message(date('Y-m-d H:i'), $_SESSION['id'], $_POST['id'], $_POST['subject'], $_POST['body']);
     if ($res) {
         echo '<p>Message envoyé !</p>';
     }

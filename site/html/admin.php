@@ -65,22 +65,22 @@ else {
         <input type="hidden" name="id" value="<?= @$user['id'] ?>">
 
         <label for="username">Utilisateur</label>
-        <input name="username" id="username" value="<?= @$user['username'] ?>"><br>
+        <input type="text" name="username" id="username" value="<?= @$user['username'] ?>">
 
         <label for="firstname">Prénom</label>
-        <input name="firstname" id="firstname" value="<?= @$user['firstname'] ?>"><br>
+        <input type="text" name="firstname" id="firstname" value="<?= @$user['firstname'] ?>">
 
         <label for="lastname">Nom</label>
-        <input name="lastname" id="lastname" value="<?= @$user['lastname'] ?>"><br>
+        <input type="text" name="lastname" id="lastname" value="<?= @$user['lastname'] ?>">
 
         <label for="password">Mot de passe</label>
-        <input type="password" name="password" id="password" value="<?= @$user['password'] ?>"><br>
+        <input type="password" name="password" id="password" value="<?= @$user['password'] ?>">
 
-        <label for="admin">Admin</label>
-        <input name="admin" id="admin" type="checkbox" <?= @$user['admin'] ? "checked" : "" ?>><br>
+        <input name="admin" id="admin" type="checkbox" <?= @$user['admin'] ? "checked" : "" ?>>
+        <label for="admin">Admin</label><br>
 
-        <label for="active">Actif</label>
-        <input name="active" id="active" type="checkbox" <?= @$user['active'] ? "checked" : "" ?>><br>
+        <input name="active" id="active" type="checkbox" <?= @$user['active'] ? "checked" : "" ?>>
+        <label for="active">Actif</label><br><br>
 
         <button type="submit" name="save">Sauver</button>
     </form>

@@ -48,6 +48,7 @@ function send_message($date, $senderId, $receiverId, $subject, $content)
     }
     catch (PDOException $e) {
         echo $e->getMessage();
+        return false;
     }
 }
 
@@ -60,5 +61,6 @@ function delete_message($idMessage)
     }
     catch (PDOException $e) {
         echo $e->getMessage();
+        return false;
     }
 }

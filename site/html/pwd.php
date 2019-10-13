@@ -1,6 +1,7 @@
 <?php
 
 require_once 'util/db.php';
+require_once 'util/user.php';
 require_once 'util/redirect.php';
 
 session_start();
@@ -9,6 +10,10 @@ session_start();
 if (!isset($_SESSION['id'])) {
     redirect_to_login();
 }
+
+$pageTitle = 'Changement du mot de passe';
+include 'include/html_header.php';
+include 'include/html_menu.php';
 
 if (isset($_POST['submit'])) {
 
@@ -19,10 +24,6 @@ if (isset($_POST['submit'])) {
         echo "Échec du changement de mot de passe !";
     }
 }
-
-$pageTitle = 'Changement du mot de passe';
-include 'include/html_header.php';
-include 'include/html_menu.php';
 
 ?>
 

@@ -23,7 +23,7 @@ include 'include/html_menu.php';
 
 ?>
 
-    <table>
+    <table class="messages">
         <tr>
             <td>Expéditeur</td>
             <td><?= ($senderExists ? $message['sender'] : '<em>Inconnu</em>') ?></td>
@@ -38,12 +38,19 @@ include 'include/html_menu.php';
         </tr>
         <tr>
             <td>Message</td>
-            <td><?= $message['content'] ?></td>
+            <td class="wrap"><?= $message['content'] ?></td>
         </tr>
     </table>
 
-    <a href="send.php?message=<?= $message['id'] ?>">Répondre</a><br>
-    <a href="index.php?delete=<?= $message['id'] ?>">Supprimer</a>
+    <form action="send.php">
+        <input type="hidden" name="message" value="<?= $message['id'] ?>">
+        <input type="submit" value="Répondre">
+    </form>
+
+    <form action="delete.php">
+        <input type="hidden" name="delete" value="<?= $message['id'] ?>">
+        <input type="submit" value="Supprimer">
+    </form>
 
 <?php
 
