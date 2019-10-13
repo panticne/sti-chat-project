@@ -11,6 +11,10 @@ L'application peut être lancée dans un containeur Docker et sera disponible à
 
 La base de données peut être créée à partir du fichier `site/databases/dump.sql` en exécutant le script `create_db.sh`. La base de données `database.sqlite` est créée.
 
+### Administrateurs
+
+Une fois la base de données créée, deux utilisateurs ont un accès administrateur. Leurs identifiants sont : niko/admin et samuel/password.
+
 ## Image Docker
 
 Nous avons étendue l'image Docker fournie afin d'y modifier la configuration de PHP (voir le fichier `Dockerfile`), nous permettant de voir à l'écran les éventuelles erreurs et warnings PHP. Ces options ne doivent évidemment être utilisées que lors de la phase de développement.
