@@ -18,3 +18,27 @@ Une fois la base de données créée, deux utilisateurs ont un accès administra
 ## Image Docker
 
 Nous avons étendue l'image Docker fournie afin d'y modifier la configuration de PHP (voir le fichier `Dockerfile`), nous permettant de voir à l'écran les éventuelles erreurs et warnings PHP. Ces options ne doivent évidemment être utilisées que lors de la phase de développement.
+
+## Users 
+
+| Firstname | Lastname       | username  | password | active |
+|-----------|----------------|-----------|----------|--------|
+| Jérôme    | Bagnoud        | jerome    | mypwd    | yes    |
+| Olivier   | Koffi          | olivier   | mypwd    | yes    |
+| Stefan    | Dejanovic      | stefan    | mypwd    | yes    |
+| Caroline  | Monthoux       | caroline  | mypwd    | yes    |
+| Daniel    | Oliveira Paiva | daniel    | mypwd    | yes    |
+| Florian   | Polier         | florian   | mypwd    | yes    |
+| Nathan    | Séville        | nathan    | mypwd    | yes    |
+| Victor    | Truan          | victor    | mypwd    | yes    |
+| Jeremy    | Zerbib         | jeremy    | mypwd    | yes    |
+| Mickael   | Bonjour        | mickael   | mypwd    | no     |
+| Filipe    | Fortunato      | filipe    | mypwd    | no     |
+| Baptiste  | Hardrick       | baptiste  | mypwd    | no     |
+| Pierre    | Kohler         | pierre    | mypwd    | no     |
+| Nathanaël | Mizutani       | nathanaël | mypwd    | no     |
+| Edin      | Mujkanovic     | edin      | mypwd    | no     |
+| Nemanja   | Pantic         | nemanja   | mypwd    | no     |
+| Julien    | Quartier       | julien    | mypwd    | no     |
+| David     | Simeonovic     | david     | mypwd    | no     |
+| Jonathan  | Zaehringer     | jonathan  | mypwd    | no     |
