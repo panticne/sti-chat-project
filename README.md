@@ -5,11 +5,11 @@
 
 ## Lancement de l'application
 
-L'application peut être lancée dans un containeur Docker et sera disponible à  travers le port 8888 de la machine locale. Il suffit pour cela d'exécuter le script `script.sh` disponible à la racine du projet.
+L'application peut être lancée dans un containeur Docker et sera disponible à  travers le port 8888 de la machine locale. Il suffit pour cela d'exécuter le script `start_app.sh` disponible à la racine du projet.
 
 ## Création de la base de données
 
-La base de données peut être créée à partir du fichier `site/databases/dump.sql` en exécutant le script `create_db.sh`. La base de données `database.sqlite` est créée.
+La base de données peut être créée à partir du fichier `db/dump.sql` en exécutant le script `create_db.sh`. La base de données `database.sqlite` est alors créée dans le répertoire `site/databases/`.
 
 ### Administrateurs
 
