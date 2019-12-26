@@ -17,3 +17,7 @@
   * administratoin
   * réponse aux messages
   * suppression des messages
+ 
+* Credentials obtenable en faisant de l'écoute sur le réseau
+  * Nous pouvons obtenir le cookie de session ainsi que le login et le password
+  * N'importe qui peut donc usurper l'identité d'un compte sur le réseau
