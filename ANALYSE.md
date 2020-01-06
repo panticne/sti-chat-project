@@ -1,6 +1,6 @@
 # STI — Analyse de menaces
 
-* **Date** : 10.12.2019
+* **Date** : 15.01.2020
 * **Auteurs** : Nikolaos Garanis, Nemanja Pantic.
 
 ## Introduction
@@ -11,9 +11,8 @@
   * executer une requete http pour lire n'importe quel message via son id
     * /read.php?message=131, mais impossible de lire le contenu depuis le navigateur mais si l'attaquant sniff le reseau il pourra voir le contenu du message
   * envoyer un message
-    * 
+    *
   * changer son mdp
-    * 
   * administration
   * réponse aux messages
   * suppression des messages
@@ -31,3 +30,13 @@
 * Fuzzing possible
   * On obtient des informations sur l'architecture du site
   * Surtout, on peut découvrir le dossier /extern qui contient le fichier phpliteadmin.php et ce dernier avait le mot de passe de base, nous avions donc accès à l'intégralité de la DB.
+
+## À faire
+
+* ~~hasher les mdp~~
+* ~~enlever extern~~
+* ~~demander le mdp actuel lors du changement de mdp~~
+* ~~enlever les mdp trop simples~~
+* protection xss
+* locker un compte si y'a trop d'essais ratés
+* token csrf
