@@ -32,12 +32,18 @@ elseif (isset($_POST['save']) && !empty($_POST['username'])) {
     }
     // create user
     else {
-        $message = create_user($_POST) ? 'Utilisateur créé !' : 'Erreur lors de la création de l\'utilisateur !';
+        if ($_SESSION['token'] == $_POST['token']) {
+            $message = create_user($_POST) ? 'Utilisateur créé !' : 'Erreur lors de la création de l\'utilisateur !';
+        } else {
+            echo "CSRF Detection";
+        }
     }
 
     echo '<p>' . $message . '</p>';
 }
 else {
+    $length = 32;
+    $_SESSION['token'] = substr(base_convert(sha1(uniqid(mt_rand())), 16, 36), 0, $length);
     ?>
 
     <form action="admin.php" method="post">
@@ -53,6 +59,8 @@ else {
         </select>
         <button type="submit" name="delete">Supprimer</button>
         <button type="submit" name="edit">Modifier</button>
+        <input type="hidden" name="token" value="<?=$_SESSION['token']?>"/>
+
     </form><br>
 
     <?php
@@ -81,6 +89,8 @@ else {
 
         <input name="active" id="active" type="checkbox" <?= @$user['active'] ? "checked" : "" ?>>
         <label for="active">Actif</label><br><br>
+
+        <input type="hidden" name="token" value="<?=$_SESSION['token']?>"/>
 
         <button type="submit" name="save">Sauver</button>
     </form>

@@ -6,6 +6,7 @@ require_once 'util/redirect.php';
 
 session_start();
 
+
 // perform logout if user has clicked the button
 if (isset($_GET['logout'])) {
     $_SESSION = array();

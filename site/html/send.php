@@ -16,6 +16,11 @@ $pageTitle = 'Envoyer un message';
 include 'include/html_header.php';
 include 'include/html_menu.php';
 
+if (!isset($_POST['send'])) {
+    $length = 32;
+    $_SESSION['token'] = substr(base_convert(sha1(uniqid(mt_rand())), 16, 36), 0, $length);
+}
+
 // replying to an existing message
 if (isset($_GET['message'])) {
 
@@ -37,8 +42,8 @@ if (isset($_GET['message'])) {
             <option value="<?= $message['sender_id'] ?>"><?= $message['sender'] ?></option>
         </select>
         <input type="text" name="subject" value="Re : <?= $message['subject'] ?>">
-        <textarea
-                name="body"><?= "\n\n\n\n—— Message précédent [" . $message['date'] . "] ——\n" . $message['content'] ?></textarea>
+        <textarea name="body"><?= "\n\n\n\n—— Message précédent [" . $message['date'] . "] ——\n" . $message['content'] ?></textarea>
+        <input type="hidden" name="token" value="<?=$_SESSION['token']?>"/>
         <button type="submit" name="send">Envoyer</button>
     </form>
 
@@ -63,6 +68,7 @@ else {
         </select>
         <input type="text" name="subject" placeholder="Sujet">
         <textarea name="body"></textarea>
+        <input type="hidden" name="token" value="<?=$_SESSION['token']?>"/>
         <button type="submit" name="send">Envoyer</button>
     </form>
 
@@ -75,13 +81,18 @@ if (isset($_POST['send'])) {
         echo '<p>Choisissez un destinataire.</p>';
     }
     else {
-        $res = send_message(date('Y-m-d H:i'), $_SESSION['id'], $_POST['id'], $_POST['subject'], $_POST['body']);
-        if ($res) {
-            echo '<p>Message envoyé !</p>';
+        if ($_SESSION['token'] == $_POST['token']) {
+            $res = send_message(date('Y-m-d H:i'), $_SESSION['id'], $_POST['id'], $_POST['subject'], $_POST['body']);
+            if ($res) {
+                echo '<p>Message envoyé !</p>';
+            }
+            else {
+                echo '<p>Échec de l\'envoi du message !</p>';
+            }
+        } else {
+            echo "CSRF Detection";
         }
-        else {
-            echo '<p>Échec de l\'envoi du message !</p>';
-        }
+
     }
 }
 
