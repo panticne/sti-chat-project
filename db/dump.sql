@@ -14,7 +14,7 @@ INSERT INTO user VALUES(1,'Jérôme','Bagnoud','jerome','mypwd',0,1);
 INSERT INTO user VALUES(2,'Mickael','Bonjour','mickael','mypwd',0,0);
 INSERT INTO user VALUES(3,'Stefan','Dejanovic','stefan','mypwd',0,1);
 INSERT INTO user VALUES(4,'Filipe','Fortunato','filipe','mypwd',0,0);
-INSERT INTO user VALUES(5,'Nikolaos','Garanis','niko','admin',1,1);
+INSERT INTO user VALUES(5,'Nikolaos','Garanis','niko','$2y$10$IELB1Kno4o7tKhAsVgEg4.GcOVbRLi8TMBPQo1vwruqDeYq5nilqe',1,1);
 INSERT INTO user VALUES(6,'Baptiste','Hardrick','baptiste','mypwd',0,0);
 INSERT INTO user VALUES(7,'Olivier','Koffi','olivier','mypwd',0,1);
 INSERT INTO user VALUES(8,'Pierre','Kohler','pierre','mypwd',0,0);

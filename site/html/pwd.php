@@ -15,9 +15,10 @@ $pageTitle = 'Changement du mot de passe';
 include 'include/html_header.php';
 include 'include/html_menu.php';
 
-if (isset($_POST['submit']) && !empty($_POST['password'])) {
+if (isset($_POST['submit']) && !empty($_POST['old_password']) && !empty($_POST['new_password'])) {
 
-    if (update_password($_SESSION['id'], $_POST['password'])) {
+    $user = get_user_with_id($_SESSION['id']);
+    if (password_verify($_POST['old_password'], $user['password']) && update_password($_SESSION['id'], $_POST['new_password'])) {
         echo "Mot de passe changé !";
     }
     else {
@@ -28,8 +29,10 @@ if (isset($_POST['submit']) && !empty($_POST['password'])) {
 ?>
 
     <form action="pwd.php" method="post">
-        <label for="password">Nouveau mot de passe</label>
-        <input type="password" id="password" name="password">
+        <label for="old_password">Mot de passe actuel</label>
+        <input type="password" id="old_password" name="old_password">
+        <label for="new_password">Nouveau mot de passe</label>
+        <input type="password" id="new_password" name="new_password">
         <button type="submit" name="submit">Valider</button>
     </form>
 
