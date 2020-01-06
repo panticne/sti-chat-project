@@ -21,7 +21,7 @@ $error = '';
 if (isset($_POST['submit'])) {
 
     $user = get_user_with_username($_POST['username']);
-    if ($user && $user['password'] == $_POST['password']) {
+    if ($user && password_verify($_POST['password'], $user['password'])) {
 
         if ($user['active'] == 1) {
             $_SESSION['id'] = $user['id'];

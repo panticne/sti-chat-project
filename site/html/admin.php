@@ -74,7 +74,7 @@ else {
         <input type="text" name="lastname" id="lastname" value="<?= @$user['lastname'] ?>">
 
         <label for="password">Mot de passe</label>
-        <input type="password" name="password" id="password" value="<?= @$user['password'] ?>">
+        <input type="password" name="password" id="password">
 
         <input name="admin" id="admin" type="checkbox" <?= @$user['admin'] ? "checked" : "" ?>>
         <label for="admin">Admin</label><br>
