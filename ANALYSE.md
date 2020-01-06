@@ -13,7 +13,6 @@
   * envoyer un message
     *
   * changer son mdp
-    *
   * administration
   * réponse aux messages
   * suppression des messages
