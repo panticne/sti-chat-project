@@ -1,4 +1,5 @@
 #!/usr/bin/env sh
+# (Re)crée la base de données à partir du dump db/dump.sql.
 
 mkdir -p site/databases
 chmod a+w site/databases
