@@ -48,13 +48,13 @@ INSERT INTO user VALUES(5,'Nikolaos','Garanis','niko','$2y$10$A4KrFysCM2cUaeg3K9
 INSERT INTO user VALUES(6,'Baptiste','Hardrick','baptiste','$2y$10$FXHxXagkRb3KcBvogu1Z4.GVaFrMZRbXkUaEf2VyRPn/a1NWy9Fk6',0,0);
 INSERT INTO user VALUES(7,'Olivier','Koffi','olivier','$2y$10$F4QqibbtHtBJi5gZRQP.nuzOHBefU1iPT8X57.DjcsCNTkl8rPcz.',0,1);
 INSERT INTO user VALUES(8,'Pierre','Kohler','pierre','$2y$10$VO0V11hsZ8T8oYuJ0kPxJO8qNWGHq8DyWX/XZce3ru3ET6I.wvdPa',0,0);
-INSERT INTO user VALUES(9,'Samuel','Mettler','samuel','$2y$10$oCWVtk4aIeKDE6mK5UPMfOgbYlhksg1152k.2IJkhbVs1.8g6cZs6',1,1);
+INSERT INTO user VALUES(9,'Samuel','Mettler','samuel','$2y$10$oCWVtk4aIeKDE6mK5UPMfOgbYlhksg1152k.2IJkhbVs1.8g6cZs6',0,1);
 INSERT INTO user VALUES(10,'Nathanaël','Mizutani','nathanaël','$2y$10$w59ivg98QLnxB91vFa9/zeCm6F.nxAOT0SCilv87tx6Pu7ESq9Wli',0,0);
 
 INSERT INTO user VALUES(11,'Caroline','Monthoux','caroline','$2y$10$Jdqbofl4iZhR0ROv57j1Z.nVf6i5AmG/OFKK1s3XmRNtWgDOnRgCK',0,1);
 INSERT INTO user VALUES(12,'Edin','Mujkanovic','edin','$2y$10$0eA5ZtJxfwtG1zwdSTgLR.B64kcMfOsFWHSBJY4wH8eWRBvjZDVTe',0,0);
 INSERT INTO user VALUES(13,'Daniel','Oliveira Paiva','daniel','$2y$10$bZ7mm4RUNImtlqMWwVTGQuRo5VtoLKAXUb8P9CurStK78/6iWLg/m',0,1);
-INSERT INTO user VALUES(14,'Nemanja','Pantic','nemanja','$2y$10$pkigxR7HAwomwUXkxiAUn./ZdfkT4RQu/DKI.DRNhN9efpGtn6Eu6',0,0);
+INSERT INTO user VALUES(14,'Nemanja','Pantic','nemanja','$2y$10$pkigxR7HAwomwUXkxiAUn./ZdfkT4RQu/DKI.DRNhN9efpGtn6Eu6',1,0);
 INSERT INTO user VALUES(15,'Florian','Polier','florian','$2y$10$kceNXxcYo0xCLHUsSZvy9uVC2tGIQFrMnuIJrhKAI3Irisu.f5cHK',0,1);
 
 INSERT INTO user VALUES(16,'Julien','Quartier','julien','$2y$10$LIrhAQhCRt/bjQKJnbxxcu7T1Ui1Ne8FlwyN1plVxRZALj2pQudxa',0,0);
