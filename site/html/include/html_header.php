@@ -15,7 +15,7 @@ if (isset($_SESSION['name'])) {
 <html lang="fr">
 <head>
     <meta charset="utf-8">
-    <title><?= $pageTitle ?></title>
+    <title><?= antixss($pageTitle) ?></title>
     <link href="include/style.css" rel="stylesheet">
 </head>
 <body>

@@ -3,6 +3,7 @@
 require_once 'util/db.php';
 require_once 'util/message.php';
 require_once 'util/redirect.php';
+require_once 'util/secure.php';
 
 session_start();
 
@@ -26,7 +27,7 @@ include 'include/html_menu.php';
     <table class="messages">
         <tr>
             <td>Expéditeur</td>
-            <td><?= ($senderExists ? $message['sender'] : '<em>Inconnu</em>') ?></td>
+            <td><?= ($senderExists ? antixss($message['sender']) : '<em>Inconnu</em>') ?></td>
         </tr>
         <tr>
             <td>Date</td>
@@ -34,11 +35,11 @@ include 'include/html_menu.php';
         </tr>
         <tr>
             <td>Sujet</td>
-            <td><?= $message['subject'] ?></td>
+            <td><?= antixss($message['subject']) ?></td>
         </tr>
         <tr>
             <td>Message</td>
-            <td class="wrap"><?= $message['content'] ?></td>
+            <td class="wrap"><?= antixss($message['content']) ?></td>
         </tr>
     </table>
 

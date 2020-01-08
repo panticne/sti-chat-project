@@ -4,7 +4,7 @@ require_once 'util/db.php';
 require_once 'util/user.php';
 require_once 'util/message.php';
 require_once 'util/redirect.php';
-
+require_once 'util/secure.php';
 session_start();
 
 // redirect to login if user is not logged in
@@ -39,10 +39,10 @@ if (isset($_GET['message'])) {
 
     <form action="send.php" method="post" class="send">
         <select name="id">
-            <option value="<?= $message['sender_id'] ?>"><?= $message['sender'] ?></option>
+            <option value="<?= $message['sender_id'] ?>"><?= antixss($message['sender']) ?></option>
         </select>
-        <input type="text" name="subject" value="Re : <?= $message['subject'] ?>">
-        <textarea name="body"><?= "\n\n\n\n—— Message précédent [" . $message['date'] . "] ——\n" . $message['content'] ?></textarea>
+        <input type="text" name="subject" value="Re : <?= antixss($message['subject']) ?>">
+        <textarea name="body"><?= "\n\n\n\n—— Message précédent [" . $message['date'] . "] ——\n" . antixss($message['content']) ?></textarea>
         <input type="hidden" name="token" value="<?=$_SESSION['token']?>"/>
         <button type="submit" name="send">Envoyer</button>
     </form>
@@ -60,7 +60,7 @@ else {
 
             <?php
             foreach ($users as $user) {
-                echo '<option value="' . $user['id'] . '">' . $user['firstname'] . ' ' . $user['lastname'] . '</option>';
+                echo '<option value="' . $user['id'] . '">' . antixss($user['firstname']) . ' ' . antixss($user['lastname']) . '</option>';
             }
             unset($user);
             ?>

@@ -1,4 +1,5 @@
 <?php
+require_once 'util/secure.php';
 
 function is_admin($userId)
 {
@@ -23,13 +24,15 @@ function delete_user($userId)
         echo $e->getMessage();
         return false;
     }
+
 }
 
 function update_user($user)
 {
-    if (!check_password_strong($user['password'])) {
+    if (!empty($user['password'])  && !check_password_strong($user['password'])) {
         return false;
     }
+
     try {
         $req = 'UPDATE user SET firstname = :firstname, lastname = :lastname, password = :password, admin = :admin, active = :active WHERE id = :id';
         $val = ['firstname' => $user['firstname'],
@@ -122,19 +125,3 @@ function get_user_with_username($username)
     }
 }
 
-function check_password_strong($password)
-{
-
-// Validate password strength
-    $uppercase = preg_match('@[A-Z]@', $password);
-    $lowercase = preg_match('@[a-z]@', $password);
-    $number = preg_match('@[0-9]@', $password);
-    $specialChars = preg_match('@[^\w]@', $password);
-
-    if (!$uppercase || !$lowercase || !$number || !$specialChars || strlen($password) < 10) {
-        echo 'Password should be at least 10 characters in length and should include at least one upper case letter, one number, and one special character.';
-        return false;
-    } else {
-        return true;
-    }
-}

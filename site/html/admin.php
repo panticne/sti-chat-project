@@ -52,7 +52,7 @@ else {
 
             <?php
             foreach (get_all_users() as $user) {
-                echo '<option value="' . $user['id'] . '">' . $user['firstname'] . ' ' . $user['lastname'] . '</option>';
+                echo '<option value="' . $user['id'] . '">' . antixss($user['firstname']) . ' ' . antixss($user['lastname']) . '</option>';
             }
             unset($user);
             ?>
@@ -73,13 +73,13 @@ else {
         <input type="hidden" name="id" value="<?= @$user['id'] ?>">
 
         <label for="username">Utilisateur</label>
-        <input type="text" name="username" id="username" value="<?= @$user['username'] ?>">
+        <input type="text" name="username" id="username" value="<?= @antixss($user['username']) ?>">
 
         <label for="firstname">Prénom</label>
-        <input type="text" name="firstname" id="firstname" value="<?= @$user['firstname'] ?>">
+        <input type="text" name="firstname" id="firstname" value="<?= @antixss($user['firstname']) ?>">
 
         <label for="lastname">Nom</label>
-        <input type="text" name="lastname" id="lastname" value="<?= @$user['lastname'] ?>">
+        <input type="text" name="lastname" id="lastname" value="<?= @antixss($user['lastname']) ?>">
 
         <label for="password">Mot de passe</label>
         <input type="password" name="password" id="password">
