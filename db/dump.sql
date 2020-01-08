@@ -11,6 +11,8 @@ CREATE TABLE IF NOT EXISTS 'user'
     'active'    BOOLEAN                           NOT NULL DEFAULT 0
 );
 
+-- Mots de passe de 16 caractères générés aléatoirement.
+--
 --  1: IbrxK7nD17s-Ywab, $2y$10$2v1LT8dR73OJzRIjmiDL.ej1VhLXPkZzHCndDt0kZM7SP4jKMfPc2
 --  2: 8pP9A4s9auVAeAnI, $2y$10$Kl53W7pll51xYxg6dzbdE.HUibNpZqqPYjOD3r8ZT4fZhfGF1H72e
 --  3: agkYBw,eEjU5zFNn, $2y$10$BTSesNw46iP6G9MO8vVL9OPnJgtVwhjMaWEcsqqG1p64gUALHtsau
