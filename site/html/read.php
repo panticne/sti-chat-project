@@ -27,7 +27,7 @@ include 'include/html_menu.php';
     <table class="messages">
         <tr>
             <td>Expéditeur</td>
-            <td><?= ($senderExists ? antixss($message['sender']) : '<em>Inconnu</em>') ?></td>
+            <td><?= ($senderExists ? anti_xss($message['sender']) : '<em>Inconnu</em>') ?></td>
         </tr>
         <tr>
             <td>Date</td>
@@ -35,11 +35,11 @@ include 'include/html_menu.php';
         </tr>
         <tr>
             <td>Sujet</td>
-            <td><?= antixss($message['subject']) ?></td>
+            <td><?= anti_xss($message['subject']) ?></td>
         </tr>
         <tr>
             <td>Message</td>
-            <td class="wrap"><?= antixss($message['content']) ?></td>
+            <td class="wrap"><?= anti_xss($message['content']) ?></td>
         </tr>
     </table>
 

@@ -34,8 +34,8 @@ include 'include/html_menu.php';
 
             echo '<tr>';
             echo '<td>' . $m['date'] . '</td>';
-            echo '<td>' . ($senderExists ? antixss($m['sender']) : '<em>Inconnu</em>') . '</td>';
-            echo '<td class="wrap">' . antixss($m['subject']) . '</td>';
+            echo '<td>' . ($senderExists ? anti_xss($m['sender']) : '<em>Inconnu</em>') . '</td>';
+            echo '<td class="wrap">' . anti_xss($m['subject']) . '</td>';
             echo '<td>' . ($m['seen'] ? 'Oui' : 'Non') . '</td>';
             echo '<td>' . ($senderExists ? '<a href="send.php?message=' . $m['id'] . '">Répondre</a>' : '') . '</td>';
             echo '<td><a href="delete.php?delete=' . $m['id'] . '">Supprimer</a></td>';
