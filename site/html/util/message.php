@@ -13,11 +13,11 @@ function get_user_messages($userId)
     }
 }
 
-function get_message($messageId)
+function get_message($userId, $messageId)
 {
     try {
-        $stmt = $GLOBALS['db']->prepare('SELECT m.id, STRFTIME(\'%d.%m.%Y %H:%M\', m.date) date, m.subject, m.content, m.seen, u.id sender_id, u.firstname || \' \' || u.lastname sender FROM message m LEFT JOIN user u ON u.id = m.sender WHERE m.id = :id');
-        $stmt->execute(['id' => $messageId]);
+        $stmt = $GLOBALS['db']->prepare('SELECT m.id, STRFTIME(\'%d.%m.%Y %H:%M\', m.date) date, m.subject, m.content, m.seen, u.id sender_id, u.firstname || \' \' || u.lastname sender FROM message m LEFT JOIN user u ON u.id = m.sender WHERE m.id = :id AND m.receiver = :receiver');
+        $stmt->execute(['id' => $messageId, 'receiver' => $userId]);
         return $stmt->fetch();
     }
     catch (PDOException $e) {
@@ -52,11 +52,11 @@ function send_message($date, $senderId, $receiverId, $subject, $content)
     }
 }
 
-function delete_message($idMessage)
+function delete_message($userId, $messageId)
 {
     try {
-        $stmt = $GLOBALS['db']->prepare('DELETE FROM message WHERE id = :idMessage');
-        $stmt->execute(['idMessage' => $idMessage]);
+        $stmt = $GLOBALS['db']->prepare('DELETE FROM message WHERE id = :messageId AND receiver = :receiver');
+        $stmt->execute(['messageId' => $messageId, 'receiver' => $userId]);
         return $stmt->rowCount() == 1;
     }
     catch (PDOException $e) {

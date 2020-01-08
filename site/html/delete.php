@@ -12,7 +12,8 @@ if (!isset($_SESSION['id'])) {
 }
 
 if(isset($_GET['delete'])){
-    delete_message($_GET['delete']);
+    // deletes the message but make sure it was received by the user making the delete request
+    delete_message($_SESSION['id'], $_GET['delete']);
 }
 
 redirect_to_index();

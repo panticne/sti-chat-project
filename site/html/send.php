@@ -25,15 +25,17 @@ if (!isset($_POST['send'])) {
 // replying to an existing message
 if (isset($_GET['message'])) {
 
-    $message = get_message($_GET['message']);
+    $message = get_message($_SESSION['id'], $_GET['message']);
     if (!$message) {
         echo '<p>Ce message n\'existe pas ou a été supprimé !</p>';
+        include 'include/html_footer.php';
         exit();
     }
 
     $senderExists = !empty($message['sender']);
     if (!$senderExists) {
         echo '<p>L\'utilisateur n\'existe pas ou a été supprimé !</p>';
+        include 'include/html_footer.php';
         exit();
     }
     ?>

@@ -12,15 +12,21 @@ if (!isset($_SESSION['id'])) {
     redirect_to_login();
 }
 
-$message = get_message($_GET['message']);
+$pageTitle = 'Lecture Message';
+include 'include/html_header.php';
+include 'include/html_menu.php';
+
+$message = get_message($_SESSION['id'], $_GET['message']);
+if (!$message) {
+    echo '<p>Ce message n\'existe pas !</p>';
+    include 'include/html_footer.php';
+    exit();
+}
+
 $senderExists = !empty($message['sender']);
 
 // mark message as read
 is_read($_GET['message']);
-
-$pageTitle = 'Lecture Message';
-include 'include/html_header.php';
-include 'include/html_menu.php';
 
 ?>
 
@@ -43,6 +49,7 @@ include 'include/html_menu.php';
         </tr>
     </table>
 
+    <!-- using GET forms to have buttons instead of links. -->
     <form action="send.php">
         <input type="hidden" name="message" value="<?= $message['id'] ?>">
         <input type="submit" value="Répondre">
