@@ -11,7 +11,6 @@
   * executer une requete http pour lire n'importe quel message via son id
     * /read.php?message=131, mais impossible de lire le contenu depuis le navigateur mais si l'attaquant sniff le reseau il pourra voir le contenu du message
   * envoyer un message
-    *
   * changer son mdp
   * administration
   * réponse aux messages
@@ -26,7 +25,7 @@
 * pas d'injections SQL car PDO::prepare/execute sont utilisés.
 * pas de protection contre le bruteforce de mdp
 * mot de passe actuel non demandé lors du changement de mdp (possibilité de changé le mdp lors d'un vol de session)
- 
+
 * Fuzzing possible
   * On obtient des informations sur l'architecture du site
   * Surtout, on peut découvrir le dossier /extern qui contient le fichier phpliteadmin.php et ce dernier avait le mot de passe de base, nous avions donc accès à l'intégralité de la DB.
@@ -37,6 +36,6 @@
 * ~~enlever extern~~
 * ~~demander le mdp actuel lors du changement de mdp~~
 * ~~enlever les mdp trop simples~~
+* ~~token csrf~~
 * protection xss
 * locker un compte si y'a trop d'essais ratés
-* token csrf
