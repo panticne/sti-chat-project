@@ -13,7 +13,7 @@ Ce projet est la suite du premier projet. Avec un binôme différent, il faut da
 
 ![dfd](img/dfd.png)
 
-Nous faisons confiance à la sécurité de la base de données, au serveur PHP et aux administrateur.
+Nous faisons confiance à la sécurité de la base de données, au serveur PHP et aux administrateurs.
 
 ### Identifier ses biens
 
@@ -36,7 +36,7 @@ L'application est vulnérable aux attaques CSRF sur tous ses formulaires. Un att
 
 #### Exploitation
 
-Pour exécuter une attaque CSRF, l'attaquant assume que sa victime est déjà loggée sur le site web visé par l'attaque. Il va ensuite amené l'utilisateur à lui faire soumettre un formulaire qui contient les valeurs d'un formulaire du site web visé (par exemple le formulaire changement de mot de passe) afin que le site web visé croie que c'est une requête légitime qui provient de l'utilisateur loggé. L'attaquant peut par exemple amener l'utilisateur sur un site web de sa conception et lui présenter un formulaire qui, en apparence, lui permetterait d'écrire un commentaire à un article, alors qu'en fait le formulaire va soumettre un changement de mot de passe sur le site victime. Exemple du formulaire :
+Pour exécuter une attaque CSRF, l'attaquant assume que sa victime est déjà loggée sur le site web visé par l'attaque. Il va ensuite amener l'utilisateur à lui faire soumettre un formulaire qui contient les valeurs d'un formulaire du site web visé (par exemple le formulaire changement de mot de passe) afin que le site web visé croie que c'est une requête légitime qui provient de l'utilisateur loggé. L'attaquant peut par exemple amener l'utilisateur sur un site web de sa conception et lui présenter un formulaire qui, en apparence, lui permetterait d'écrire un commentaire à un article, alors qu'en fait le formulaire va soumettre un changement de mot de passe sur le site victime. Exemple du formulaire :
 
 ```html
 <form action="http://message.app/pwd.php" method="post">
@@ -61,8 +61,8 @@ Il est possible pour un utilisateur de lire, supprimer ou répondre à n'importe
 
 Il lui suffit simplement de visiter un des liens suivants en changeant l'id affiché :
 * `/delete.php?delete=<id>`,
-* `read.php?message=<id>`,
-* `send.php?message=<id>`.
+* `/read.php?message=<id>`,
+* `/send.php?message=<id>`.
 
 #### Contre mesure
 
@@ -93,7 +93,7 @@ Afin que le code HTML et Javascript ne puisse être interprété (lorsqu'il est 
 
 ## 4. Injections SQL
 
-Aucune possibilité d'injection SQL n'a été trouvée car nous utilisons la librairie PDO et ses méthodes prepare et execute. Celles-ci fournissent déjà un niveau de protection contre les injections SQL.
+Aucune possibilité d'injection SQL n'a été trouvée car nous utilisons la librairie PDO et ses méthodes `prepare` et `execute`. Celles-ci fournissent déjà un niveau de protection contre les injections SQL.
 
 ## 5. Brute force
 
@@ -107,7 +107,9 @@ Technique standard de brute force, par exemple avec le logiciel Hydra.
 
 #### Contre mesure
 
-Plusieurs solutions sont possibles pour combler cette vulnérabilité. Par exemple, une colonne indiquant le nombre de login raté pourrait être rajouté dans la table utilisateur. Une fois une certaine valeur dépassée, le compte est bloqué. Pour débloquer le compte, un mail pourrait être envoyé à l'utilisateur (donnée qui n'existe pas dans notre application). Sinon, le compte pourrait être débloqué par un administrateur, mais il faudrait un moyen de communication entre l'administrateur et la personne ayant son compte bloqué (ce qui n'est pas le cas de notre application). C'est pour cette raison que nous n'avons pas implémenté cette fonctionnalité.
+Plusieurs solutions sont possibles pour combler cette vulnérabilité. Par exemple, une colonne indiquant le nombre de login raté pourrait être rajouté dans la table utilisateur. Une fois une certaine valeur dépassée, le compte est bloqué. Pour débloquer le compte, un mail pourrait être envoyé à l'utilisateur (donnée qui n'existe pas dans notre application).
+
+Sinon, le compte pourrait être débloqué par un administrateur, mais il faudrait un moyen de communication entre l'administrateur et la personne ayant son compte bloqué (ce qui n'est pas le cas de notre application). C'est pour cette raison que nous n'avons pas implémenté cette fonctionnalité.
 
 Il serait aussi possible de limiter le brute force au niveau des adresses IP mais cela sort du champ de notre application.
 
@@ -129,7 +131,7 @@ Afin de corriger cette faiblesse un champ a été rajouté pour que l'utilisateu
 
 #### Menace
 
-Un attaquant essayant des noms de répertoire commun peut voir la présence d'un répertoire `extern` avec un fichier `phpliteadmin.php` dedans, lequel permet d'accéder à l'intégralité de la base de données avec le simple mot de passe par défaut "admin".
+Un attaquant essayant des noms de répertoire communs peut voir la présence d'un répertoire `extern` avec un fichier `phpliteadmin.php` dedans, lequel permet d'accéder à l'intégralité de la base de données avec le simple mot de passe par défaut "admin".
 
 #### Exploitation
 
@@ -143,7 +145,7 @@ Le répertoire `extern` a été supprimé ainsi que les fichiers qui s'y trouvai
 
 #### Menace
 
-Les mots de passe étaient stockés en clair dans la base de données ce qui est un manque totale de confidentialité dans le cas d'un vol de la base de données ou simplement par rapport aux administrateur qui y ont accès. Les mots de passe des utilisateurs par défaut étaient aussi beaucoup trop simples.
+Les mots de passe étaient stockés en clair dans la base de données ce qui est un manque total de confidentialité dans le cas d'un vol de la base de données ou simplement par rapport aux administrateurs qui y ont accès. Les mots de passe des utilisateurs par défaut étaient aussi beaucoup trop simples.
 
 #### Exploitation
 
@@ -153,7 +155,7 @@ Des mots de passe trop simple facilitent les attaques par brute force.
 
 Pour les utilisateurs par défaut, leur mot de passe a été généré aléatoirement et contient 16 caractères. De plus, les mots de passe sont maintenant hashés avec la fonction PHP `password_hash` avec l'algorithme Bcrypt. Celle-ci utilise un sel aléatoire pour chaque mot de passe.
 
-Nous avons aussi décidé d'imposer certaines règles lorsqu'un utilisateur choisit son mot de passe. Le mot de passe doit contenir 10 caractères et posséder au moins une majuscule, une minuscules, un chiffre et un caractère spécial.
+Nous avons aussi décidé d'imposer certaines règles lorsqu'un utilisateur choisit son mot de passe. Le mot de passe doit contenir 10 caractères et posséder au moins une majuscule, une minuscule, un chiffre et un caractère spécial.
 
 ## Conclusion
 
