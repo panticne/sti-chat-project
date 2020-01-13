@@ -11,7 +11,7 @@ Ce projet est la suite du premier projet. Avec un binôme différent, il faut da
 
 ### DFD
 
-![dfd](img/dfd.png)
+![dfd](img/dfd.jpg)
 
 Nous faisons confiance à la sécurité de la base de données, au serveur PHP et aux administrateurs.
 
