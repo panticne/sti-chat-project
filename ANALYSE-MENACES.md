@@ -25,7 +25,7 @@ Comme demandé, seules les failles de sécurité relatives à l'application elle
 
 ## 1. CSRF
 
-#### Menace
+#### Menace
 
 L'application est vulnérable aux attaques CSRF sur tous ses formulaires. Un attaquant peut alors amener un utilisateur à exécuter à son insu les actions suivantes :
 
@@ -51,7 +51,7 @@ Pour éviter les attaques CSRF nous générons un token à chaque fois qu'un for
 
 Une limitation de cette solution est que si l'utilisateur ouvre une première page avec un formulaire, puis une deuxième avec un autre formulaire, alors la soumission du premier formulaire ne fonctionnera pas (puisque la valeur du token dans la session aura été changée).
 
-## 2. Autorisation
+## 2. Autorisation
 
 #### Menace
 
@@ -68,7 +68,7 @@ Il lui suffit simplement de visiter un des liens suivants en changeant l'id affi
 
 Afin de  se  protéger contre cette vulnérabilité, une vérification a été rajoutée. Toute action sur un message doit être effectuée par le récipient du message. Cela a été corrigé dans les requêtes SQL correspondantes.
 
-## 3. XSS
+## 3. XSS
 
 #### Menace
 
@@ -127,7 +127,7 @@ En faisant une attaque CSRF comme décrit plus haut ou bien en volant le cookie 
 
 Afin de corriger cette faiblesse un champ a été rajouté pour que l'utilisateur puisse entrer son mot de passe actuel afin de le changer (dans le champ suivant).
 
-## 7. Site map
+## 7. Site map
 
 #### Menace
 
